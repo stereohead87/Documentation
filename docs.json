@@ -6,12 +6,22 @@
     "primary": "#0D9373"
   },
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "API",
-        "openapi": "api/apidocs-m4.yaml",
-        "pages": [
-          "add-doc"
+        "language": "ru",
+        "products": [
+          {
+            "product": "Support",
+            "tabs": [
+              {
+                "tab": "API",
+                "openapi": "api/apidocs-m4.yaml",
+                "pages": [
+                  "add-doc"
+                ]
+              }
+            ]
+          }
         ]
       }
     ]
