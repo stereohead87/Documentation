@@ -9,7 +9,7 @@
     "tabs": [
       {
         "tab": "API",
-        "openapi": "apidoc.yaml"
+        "openapi": "api/apidoc.yaml"
       }
     ]
   }
