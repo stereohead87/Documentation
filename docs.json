@@ -6,10 +6,10 @@
     "primary": "#0D9373"
   },
   "navigation": {
-    "groups": [
+    "tabs": [
       {
-        "group": "API",
-        "pages": ["api"]
+        "tab": "API",
+        "openapi": "apidoc.yaml"
       }
     ]
   }
