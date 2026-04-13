@@ -8,8 +8,8 @@
   "navigation": {
     "groups": [
       {
-        "group": "Getting Started",
-        "pages": []
+        "group": "API",
+        "pages": ["api"]
       }
     ]
   }
