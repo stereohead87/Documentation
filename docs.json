@@ -9,7 +9,10 @@
     "tabs": [
       {
         "tab": "API",
-        "openapi": "api/apidocs-m4.yaml"
+        "openapi": "api/apidocs-m4.yaml",
+        "pages": [
+          "user-manual"
+        ]
       }
     ]
   }
