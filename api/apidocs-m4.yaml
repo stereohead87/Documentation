@@ -6,8 +6,7 @@ info:
   contact:
     url: https://api.m4ii.tech/gateway/v1/
     name: M4  Support
-  description: |-
-    ![M4  Logo](/assets/m4/images/m4-logo.png)
+  description: TEST API
 
     ## Description
 
@@ -40,7 +39,7 @@ info:
 
     ## Request signature
 
-    <SecurityDefinitions />
+
 servers:
   - url: https://api.m4ii.tech/gateway/v1/
     description: The production API server
