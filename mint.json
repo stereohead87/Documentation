@@ -1,5 +1,11 @@
 {
   "openapi": {
     "source": "apidocs-m4.yaml"
-  }
+  },
+  "navigation": [
+    {
+      "group": "API",
+      "pages": ["api"]
+    }
+  ]
 }
