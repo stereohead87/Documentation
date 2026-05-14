@@ -9,9 +9,7 @@
     "tabs": [
       {
         "tab": "API",
-        "pages": [
-          "api"
-        ]
+        "pages": ["api"]
       }
     ]
   }
