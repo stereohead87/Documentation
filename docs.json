@@ -7,11 +7,20 @@
     "primary": "#0D9373"
   },
 
+  "api": {
+    "openapi": {
+      "source": "openapi/openapi.yaml",
+      "route": "api-reference"
+    }
+  },
+
   "navigation": {
     "tabs": [
       {
         "tab": "API",
-        "openapi": "api/openapi/openapi.yaml"
+        "pages": [
+          "api-reference"
+        ]
       }
     ]
   }
