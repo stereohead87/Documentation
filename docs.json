@@ -9,7 +9,7 @@
 
   "api": {
     "openapi": {
-      "source": "openapi/openapi.yaml",
+      "source": "openapi/test.yaml",
       "route": "api-reference"
     }
   },
