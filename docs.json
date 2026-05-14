@@ -11,7 +11,7 @@
     "tabs": [
       {
         "tab": "API",
-        "openapi": "openapi/openapi.yaml"
+        "openapi": "api/openapi/openapi.yaml"
       }
     ]
   }
