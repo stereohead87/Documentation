@@ -7,7 +7,7 @@
   },
   "api": {
     "openapi": {
-      "source": "openapi/openapi.yaml"
+      "source": "root/openapi.yaml"
     }
   },
   "navigation": {
