@@ -1,12 +1,25 @@
 openapi: 3.0.3
+
 info:
   title: Debug API
   version: 1.0.0
+
+servers:
+  - url: https://example.com
 
 paths:
   /test:
     get:
       summary: Test endpoint
+      operationId: getTest
       responses:
         "200":
-          description: OK
+          description: OK response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "success"
