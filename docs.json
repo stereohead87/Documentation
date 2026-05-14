@@ -5,6 +5,11 @@
   "colors": {
     "primary": "#0D9373"
   },
+  "api": {
+    "openapi": {
+      "source": "openapi/openapi.yaml"
+    }
+  },
   "navigation": {
     "pages": ["api"]
   }
