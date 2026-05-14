@@ -6,11 +6,6 @@
     "primary": "#0D9373"
   },
   "navigation": {
-    "tabs": [
-      {
-        "tab": "API",
-        "pages": ["api"]
-      }
-    ]
+    "pages": ["api"]
   }
 }
