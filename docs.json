@@ -2,24 +2,15 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Documentation",
-
   "colors": {
     "primary": "#0D9373"
   },
-
-  "api": {
-    "openapi": {
-      "source": "openapi/test.yaml",
-      "route": "api-reference"
-    }
-  },
-
   "navigation": {
     "tabs": [
       {
         "tab": "API",
         "pages": [
-          "api-reference"
+          "api"
         ]
       }
     ]
