@@ -4,7 +4,9 @@ title: "Payout creation"
 
 ### Process of shop payouts generation is as follows:
 
-_Diagram omitted: Withdraw Flow Diagram (`assets/common/images/en/withdraw-flow.v1.png` is not present in this repository)._
+<Frame>
+  ![Withdraw Flow V1](/images/withdraw-flow.v1.png)
+</Frame>
 
 1. Shop executes a request for a preliminary calculation and receiving additional parameters for further creation of the payout using the method [withdraw/try](/api-reference/withdraw-create/payout-preliminary-calculation);
 2. If `result: true`, the shop sends request for a preliminary check of the existence and possibility of adding funds to the account [check\_account](/api-reference/withdraw-create/checking-the-account-for-the-possibility-of-replenishment), to the specified payment way (if necessary, specify additional parameters obtained from the previous request from the `account_info_config` field);

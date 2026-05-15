@@ -10,8 +10,6 @@ title: "Invoice issue (payment creation)"
 
 ### Single-step payment
 
-_Diagram omitted: Invoice Flow Diagram (`assets/common/images/en/invoice-flow.v1.png` is not present in this repository)._
-
 <Frame>
   ![Telegram Cloud Photo Size 2 5204333575216502086 X](/images/telegram-cloud-photo-size-2-5204333575216502086-x.jpg)
 </Frame>
@@ -26,7 +24,9 @@ _Diagram omitted: Invoice Flow Diagram (`assets/common/images/en/invoice-flow.v1
 
 ### Two-step payment
 
-_Most often, a two-stage payment is used for payments by bank cards._ _Diagram omitted: Invoice Two Stage Flow Diagram (`assets/common/images/en/invoice-two-stage-flow.v1.png` is not present in this repository)._
+<Frame>
+  ![Invoice Two Stage Flow V1](/images/invoice-two-stage-flow.v1.png)
+</Frame>
 
 1. User generates an order on the shop's website;
 2. Shop sends a request for a preliminary calculation of the issued invoice and receiving additional parameters [invoice/try](/api-reference/invoice-create/invoice-preliminary-calculation);
