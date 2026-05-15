@@ -8,25 +8,60 @@
   "navigation": {
     "groups": [
       {
-        "group": "Guides",
+        "group": "Overview",
         "pages": [
-          "overview",
-          "invoice-create",
-          "invoice-refund",
-          "callbacks",
-          "invoice-callback-schema",
-          "refund-callback-schema",
-          "invoice-recurrent",
-          "invoice-statuses",
-          "withdraw-create",
-          "withdraw-statuses",
-          "other-shop-methods",
-          "errors-list"
+          "overview"
         ]
       },
       {
-        "group": "API Reference",
-        "openapi": "openapi.yaml"
+        "group": "Payments",
+        "openapi": "openapi.yaml",
+        "pages": [
+          "invoice-create",
+          "POST /invoice/try",
+          "POST /invoice/create",
+          "POST /invoice/check",
+          "POST /invoice/hold",
+          "POST /invoice/charge",
+          "POST /invoice/unhold",
+          "POST /shop_input_config/shop",
+          "invoice-refund",
+          "POST /invoice/create-refund",
+          "POST /invoice/get-refunds",
+          "invoice-recurrent",
+          "invoice-statuses"
+        ]
+      },
+      {
+        "group": "Withdraws",
+        "openapi": "openapi.yaml",
+        "pages": [
+          "withdraw-create",
+          "POST /withdraw/try",
+          "POST /check_account",
+          "POST /withdraw/create",
+          "POST /withdraw/status",
+          "POST /withdraw/shop_payment_status",
+          "POST /shop_output_config/shop",
+          "withdraw-statuses"
+        ]
+      },
+      {
+        "group": "Callbacks",
+        "pages": [
+          "callbacks",
+          "invoice-callback-schema",
+          "refund-callback-schema"
+        ]
+      },
+      {
+        "group": "Directories and other methods",
+        "openapi": "openapi.yaml",
+        "pages": [
+          "other-shop-methods",
+          "POST /shop_balance",
+          "errors-list"
+        ]
       }
     ]
   }
