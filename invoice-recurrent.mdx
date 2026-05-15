@@ -1,0 +1,15 @@
+---
+title: "Recurrent invoice"
+---
+
+> **Attention:**
+> This feature is available only after approval by the manager.
+You can withdraw funds regularly from the payment instrument of the buyer without repeated entry of details and without participation of the payer to initiate the next payment. With such way of funds withdrawal the user should only confirm the first payment or linking of the payment instrument, all subsequent payments will be made without his/her participation.
+
+To create the first payment in the chain and to generate the payment token, pass `issue_payment_token: true` in [invoice/create](/api-reference/invoice-create/invoice-issue) or [invoice/hold](/api-reference/invoice-create/funds-hold-two-stage-payments).
+
+You will then receive a [notification](/callbacks) with `payment_token` inside `ps_data`. Save that token for subsequent charges.
+
+> **Warning:**
+> Parameter **payment_token** is sent only after a successful transaction.
+For each following payment, submit `payment_token: "<payment token>"` in [invoice/create](/api-reference/invoice-create/invoice-issue). The response may return `method: null` and `url: null` when no redirect to the payment page is required; the final result arrives via [notification](/callbacks).

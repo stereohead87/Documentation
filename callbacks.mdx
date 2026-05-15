@@ -1,0 +1,163 @@
+---
+title: "Interaction format"
+---
+
+### Issued invoice notice after payment or refund
+
+After changing the payment status or returning to one of the final ones, the M4  system sends a notification to the shop to the URL specified in the shop settings or in the request body (if specified in the description of the request parameters).
+
+> **Warning:**
+> To successfully receive server-side notifications, please make sure that your server receiving HTTP requests from us is configured according to the current security standards described on [https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html)
+
+Pay special attention to the TLS ciphers you support.
+
+Notifications for payments and refunds are delivered to one callback URL. You can distinguish notifications by the value of the GET parameter named `type` in the URL from which you received the notification.
+Possible values of `type`:
+* `invoice` - payment notification
+* `refund` - refund notification
+
+Server notifications are sent from the following IP addresses:
+
+|IP addresses|
+|-|
+|35.198.100.222|
+|35.198.175.25|
+
+HTTP protocol is used to send the notification:
+
+* Method: `POST`
+* Format: `Content-Type: application/json`
+
+> **Success:**
+> If necessary, the support service can enable an alternative notification format: `Content-Type: application/x-www-form-urlencoded`, in this case, all the transmitted parameters will have a string representation.
+
+> **Attention:**
+> It is **necessary** to check the values from the notification with the values in the invoice, and **to check** signature in the notification.
+
+The signature is generated using the same algorithm as when issuing the invoice.
+
+All the not-null and non-empty parameters present in the notification are involved in the signature validation, including zero values. At the same time, `null` values and empty strings are not involved in signature validation and are excluded.
+
+Consider building your system using forward compatibility strategy to be ready to handle new parameters in the server notifications without need to upgrade your own system.
+
+### Expected response
+
+If the notice is received and processed correctly, it is necessary to return the status `200` and the message body `OK` (`text/plain`) to the `HTTP` response. Otherwise, notices will be sent again, with an increasing interval, including only 25 attempts, the last one at the end of the day.
+
+## Payment notification example
+
+[Invoice callback schema](/invoice-callback-schema)
+
+## Refund notification example
+
+[Refund callback schema](/refund-callback-schema)
+
+## Example of Python code to verify the signature of a request
+
+The algorithm implemented below on the example of a server payment notification is the same for a server refund notification.
+
+```python
+# Resulting notification string (in format application/json)
+request_body_json = """
+    {
+      "shop_id": 1,
+      "shop_order_id": "The store's order ID",
+      "description": "Your payment description",
+      "shop_amount": 100.0,
+      "shop_refund": 19.0,
+      "shop_currency": 840,
+      "payment_id": 1234,
+      "client_price": 100.0,
+      "ps_currency": "840",
+      "payway": "some_payway_name",
+      "ps_data": "{\\"amount\\": \\"20.00\\", \\"bill_id\\": \\"i_100\\", \\"ccy\\": \\"USD\\", \\"command\\": \\"bill\\", \\"comment\\": \\"[i_100] Payment\\", \\"error\\": 0, \\"prv_name\\": \\"PaymentSystem\\", \\"ps_payer_account\\": \\"971510000000\\", \\"status\\": \\"paid\\", \\"user\\": \\"tel:+971510000000\\"}",
+      "created": "2020-08-21T15:38:07",
+      "updated": "2020-08-21T15:38:07",
+      "status": "success",
+      "addons": "{\\"callback_rejected_url\\": \\"https://some-shop.com/callback-rejected-url\\", \\"callback_url\\": \\"https://some-shop.com/callback-url\\", \\"description\\": \\"Some payment\\", \\"failed_url\\": \\"https://some-shop.com/fail\\", \\"phone\\": \\"971510000000\\", \\"success_url\\": \\"https://some-shop.com/success\\"}",
+      "sign": "1d51960a52a6c7e8cf957d1a22ad2b3263603bace013facc335dd1429ecb4e97"
+}"""
+
+import json
+parsed_request = json.loads(request_body_json)
+
+# Resulting notification string (in format application/x-www-form-urlencoded)
+if content_type == 'application/x-www-form-urlencoded':
+    request_body_form_urlencoded = (
+        'shop_id=1&shop_order_id=The+store's+order+ID&description=Your+payment+description&s'
+        'hop_amount=20.0&shop_refund=19.0&shop_currency=840&payment_id=100&'
+        'client_price=20.0&ps_currency=840&payway=some_payway_name&ps_data='
+        '%7B%22amount%22%3A+%2220.00%22%2C+%22bill_id%22%3A+%22i_100%22%2C+'
+        '%22ccy%22%3A+%22USD%22%2C+%22command%22%3A+%22bill%22%2C+%22commen'
+        't%22%3A+%22%5Bi_100%5D+Payment%22%2C+%22error%22%3A+0%2C+%22prv_na'
+        'me%22%3A+%22PaymentSystem%22%2C+%22ps_payer_account%22%3A+%2297151'
+        '0000000%22%2C+%22status%22%3A+%22paid%22%2C+%22user%22%3A+%22tel%3'
+        'A%2B971510000000%22%7D&created=2020-08-21T15%3A38%3A07&updated=202'
+        '0-08-21T15%3A38%3A07&status=success&addons=%7B%22callback_rejected'
+        '_url%22%3A+%22https%3A%2F%2Fsome-shop.com%2Fcallback-rejected-url%'
+        '22%2C+%22callback_url%22%3A+%22https%3A%2F%2Fsome-shop.com%2Fcallb'
+        'ack-url%22%2C+%22description%22%3A+%22Some+payment%22%2C+%22failed'
+        '_url%22%3A+%22https%3A%2F%2Fsome-shop.com%2Ffail%22%2C+%22phone%22'
+        '%3A+%22971510000000%22%2C+%22success_url%22%3A+%22https%3A%2F%2Fso'
+        'me-shop.com%2Fsuccess%22%7D&sign=1d51960a52a6c7e8cf957d1a22ad2b326'
+        '3603bace013facc335dd1429ecb4e97'
+    )
+    from urllib.parse import parse_qsl
+    parsed_request = dict(parse_qsl(request_body_form_urlencoded))
+
+print(parsed_request)
+# {
+#     'shop_id': 100,
+#     'shop_order_id': 'The store's order ID',
+#     'description': 'Some payment',
+#     'shop_amount': 20.0,
+#     'shop_refund': 19.0,
+#     'shop_currency': 840,
+#     'payment_id': '100',
+#     'client_price': 20.0,
+#     'ps_currency': 840,
+#     'payway': 'some_payway_name',
+#     'ps_data': '{"amount": "20.00", "bill_id": "i_100", "ccy": "USD", "command": "bill", "comment": "[i_100] Payment", "error": 0, "prv_name": "PaymentSystem", "ps_payer_account": "971510000000", "status": "paid", "user": "tel:+971510000000"}',
+#     'created': '2020-08-21T15:38:07',
+#     'updated': '2020-08-21T15:38:07',
+#     'status': 'success',
+#     'addons': '{"callback_rejected_url": "https://example.com/callback-rejected-url", "callback_url": "https://example.com/callback-url", "description": "Your payment description", "failed_url": "https://example.com/fail", "phone": "971510000000", "success_url": "https://example.com/success"}',
+#     'sign': '1d51960a52a6c7e8cf957d1a22ad2b3263603bace013facc335dd1429ecb4e97',
+# }
+
+# Let's get a list of sorted keys for signature generation
+keys = sorted(parsed_request)
+
+# Let's remove the signed key from them.
+keys.remove('sign')
+
+print(keys)
+# This is how the resulting list will look like
+#     ['addons',
+#      'client_price',
+#      'created',
+#      'description',
+#      'payment_id',
+#      'payway',
+#      'ps_currency',
+#      'ps_data',
+#      'shop_amount',
+#      'shop_currency',
+#      'shop_id',
+#      'shop_order_id',
+#      'shop_refund',
+#      'status',
+#      'updated']
+
+# Let's compose a line using the sorted key values obtained in the previous step
+values_to_sign = []
+for k in keys:
+    if parsed_request[k] != '' and parsed_request[k] is not None:
+        values_to_sign.append(str(parsed_request[k]))
+
+# Let's form the final signature and check its value with the value received in the response
+string_to_sign = ':'.join(values_to_sign) + '<secret_key_here>'
+import hashlib
+sign = hashlib.sha256(string_to_sign.encode()).hexdigest()
+assert sign == parsed_request['sign']
+```

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Documentation",
+  "colors": {
+    "primary": "#0D9373"
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "Guides",
+        "pages": [
+          "overview",
+          "invoice-create",
+          "invoice-refund",
+          "callbacks",
+          "invoice-callback-schema",
+          "refund-callback-schema",
+          "invoice-recurrent",
+          "invoice-statuses",
+          "withdraw-create",
+          "withdraw-statuses",
+          "other-shop-methods",
+          "errors-list"
+        ]
+      },
+      {
+        "group": "API Reference",
+        "openapi": "openapi.yaml"
+      }
+    ]
+  }
+}

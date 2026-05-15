@@ -1,0 +1,16 @@
+---
+title: "Payout statuses"
+---
+
+If the payout has been successfully created, the response will contain a unique payment identifier and its status.
+
+The status can be final and non-final, for non-final status, you must make a status request before receiving the final status.
+
+| Numerical identifier | Description                        | Final   |
+|:-----:|---------------------------------------------------|:--------:|
+|  1    | Payout has been created, awaits processing        | &minus; |
+|  3    | Sent to the payment system                        | &minus; |
+|  4    | Payout error on the part of the payment system    | &minus; |
+|  5    | Successfully completed                            | &plus;  |
+|  6    | Rejected by the payment system                    | &plus;  |
+|  9    | Network error on the part of the payment system   | &minus; |

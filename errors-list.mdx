@@ -1,0 +1,87 @@
+---
+title: "List of possible errors"
+---
+
+### List of possible M4  API errors
+
+You can use this data to control the logic of your application, analyze and solve problems, output messages
+to the user, and for any other purpose. For example, if you received `error_code: 11` in the response, then most likely you
+incorrectly specified the value of the `shop_id` parameter in the request body.
+
+If you receive `result: false` in the response, this means that an error occurred, and the transaction was either not created (
+for example, in case of request body validation error), or ended with an error (for example, the payment system returned an error when
+trying to perform a transaction). If the `error code` is not fatal, then you need to wait for the [server notification](/callbacks) (applies to [invoice](/invoice-create) or [refund](/invoice-refund) transactions) or after a certain time start requesting the status of the transaction (applies to [payout](/withdraw-create) transactions) (for 2 hours at 30-second intervals). If the `error code` is fatal the communication with our API is over.
+
+If you receive `result: true` in response, it means that the transaction was created successfully. If the transaction status in the synchronous
+response is not final (or is absent for some types of transactions), then you need
+to wait for the [server notification](/callbacks) or after a certain time start requesting the status
+of the transaction (applies only to [payout](/withdraw-create) transactions). After receiving the final status of the transaction,
+the communication with our API is over.
+
+| Error code | Description                                                                                                                                                                         |  Fatal  |
+|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------:|
+| 1          | Payway has not been found                                                                                                                                                           | &plus;  |
+| 2          | Payway is not active                                                                                                                                                                | &plus;  |
+| 3          | Payway is not available                                                                                                                                                             | &plus;  |
+| 4          | The specified amount is too small (payway restriction)                                                                                                                              | &plus;  |
+| 5          | The specified amount is too big (payway restriction)                                                                                                                                | &plus;  |
+| 6          | A non-unique operation identifier has been transferred on the part of the shop                                                                                                      | &plus;  |
+| 7          | Operation has not been found                                                                                                                                                        | &plus;  |
+| 8          | Operation is being processed                                                                                                                                                        | &plus;  |
+| 9          | Insufficient balance                                                                                                                                                                | &plus;  |
+| 10         | Invalid request parameters                                                                                                                                                          | &plus;  |
+| 11         | Shop has not been found                                                                                                                                                             | &plus;  |
+| 12         | Shop is not active                                                                                                                                                                  | &plus;  |
+| 13         | Account has not been found in M4  system                                                                                                                                     | &plus;  |
+| 14         | Account status does not allow operations                                                                                                                                            | &plus;  |
+| 15         | Request from the current IP has been rejected                                                                                                                                       | &plus;  |
+| 16         | Currency exchange rate has not been found                                                                                                                                           | &plus;  |
+| 17         | Invalid contract type for the shop                                                                                                                                                  | &plus;  |
+| 18         | Invalid account type                                                                                                                                                                | &plus;  |
+| 19         | Unable to perform operation for shop with the status of an aggregator                                                                                                               | &plus;  |
+| 20         | Invalid project ID                                                                                                                                                                  | &plus;  |
+| 21         | Project is inactive                                                                                                                                                                 | &plus;  |
+| 22         | Invalid shop currency                                                                                                                                                               | &plus;  |
+| 23         | Account deposit limit exceeds                                                                                                                                                       | &plus;  |
+| 24         | Invalid payee balance                                                                                                                                                               | &plus;  |
+| 25         | Zero amount is specified                                                                                                                                                            | &plus;  |
+| 26         | Amount is less than zero                                                                                                                                                            | &plus;  |
+| 27         | Daily limit has been exceeded                                                                                                                                                       | &plus;  |
+| 40         | Operation with specified BIN is restricted                                                                                                                                          | &plus;  |
+| 41         | Transaction to this payment instrument is forbidden                                                                                                                                 | &plus;  |
+| 100        | Operation has an invalid status                                                                                                                                                     | &plus;  |
+| 101        | Unable to refund since the invoice has a status other than Success (4)                                                                                                              | &plus;  |
+| 102        | Refund amount exceeds the available refund amount                                                                                                                                   | &plus;  |
+| 103        | Transaction for this payment method is not supported                                                                                                                                | &plus;  |
+| 104        | Cannot execute a refund because an incomplete refund already exists. Wait for the current refund to complete before creating a new one.                                             | &plus;  |
+| 1001       | Payment system is unable to process the request now. Please try again later.                                                                                                        | &minus; |
+| 1002       | Payment system has returned the "Access error" status. Please contact the payment system for further information.                                                                   | &plus;  |
+| 1003       | Invalid request parameters. Please verify the accuracy of the payment details and retry the request later.                                                                          | &plus;  |
+| 1004       | The payment amount is less or greater than the allowed limit. Please ensure that the payment amount complies with the requirements of the payment system or bank.                   | &plus;  |
+| 1005       | The transaction limit has been exceeded. Please contact bank or the payment system to get information about the reasons for reaching the transaction limit.                         | &plus;  |
+| 1006       | The account was not found in the payment system. Please check the correctness of the entered data and retry the request.                                                            | &plus;  |
+| 1007       | An error occurred in the payment system. Request the status of the transaction or wait for a server notification.                                                                   | &minus; |
+| 1008       | Insufficient funds in the account to process the payment. Please ensure that there are sufficient funds in the account and retry the request.                                       | &plus;  |
+| 1009       | Insufficient identification status of the wallet                                                                                                                                    | &plus;  |
+| 1010       | The account is blocked. Request information about the reasons for the blockage and the actions required to unblock the account in the payment system or use an alternative account. | &plus;  |
+| 1011       | Operation is forbidden by a payment system. Please contact the payment system for further information.                                                                              | &plus;  |
+| 1012       | Operation is rejected by payment system. Please contact the payment system for further information.                                                                                 | &plus;  |
+| 1013       | Account is locked in payment system                                                                                                                                                 | &minus; |
+| 1014       | Incorrect data in request parameters                                                                                                                                                | &minus; |
+| 1015       | Transaction lifetime was expired                                                                                                                                                    | &plus;  |
+| 1016       | The operation has been declined by the payment system. The user has an unpaid transaction that needs to be either declined or completed.                                            | &plus;  |
+| 1017       | The specified currency for the operation is unavailable. Please contact the payment system for information on the available currencies.                                             | &plus;  |
+| 1018       | No suitable options were found for the transaction. Please try again later.                                                                                                         | &plus;  |
+| 1019       | The user did not confirm or cancel the operation. Please try again later.                                                                                                           | &plus;  |
+| 1020       | The transaction failed KYT verification.                                                                                                                                            | &plus;  |
+| 1100       | Invalid CVV/CVC code. Please verify the accuracy of the entered CVV/CVC code on the back of the credit card.                                                                        | &plus;  |
+| 1101       | Suspicion of fraudulent activity. Please contact the payment system or bank for further information.                                                                                | &plus;  |
+| 1102       | The operation has been rejected by the payment system. Please verify the accuracy of the payment details and retry the request later.                                               | &plus;  |
+| 1103       | The operation has been rejected by the bank. Please contact the bank to determine the reason for the rejection.                                                                     | &plus;  |
+| 1104       | The operation with this payment instrument is prohibited. Please contact bank or the payment system for information on the reasons for the prohibition.                             | &plus;  |
+| 1105       | The card has expired. Please check the expiration date of the card provided during the payment. If the card has indeed expired, please use a card with a valid expiration date.     | &plus;  |
+| 1106       | Invalid card number. Please check the correctness of the entered number and retry the request.                                                                                      | &plus;  |
+| 1107       | 3D-Secure authentication is required. Please contact the payment system or bank for additional information.                                                                         | &plus;  |
+| 1108       | The payment token has expired. Obtain a new token and retry the request.                                                                                                            | &plus;  |
+| 1109       | Transaction rejected by MPI. Please repeat the payment using another bank card.                                                                                                     | &plus;  |
+| 2000       | Another error                                                                                                                                                                       | &plus;  |

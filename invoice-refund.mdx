@@ -1,0 +1,27 @@
+---
+title: "Refunds"
+---
+
+The refund of the paid invoice can be full or partial.
+
+* In case of a full refund, you refund the successfully paid payment in full.
+* In case of a partial refund - a part of the payment amount, for example, if you want to refund a part of the purchase.
+
+After confirmation of the refund by the payment system, the M4  system [will send a notification](/callbacks) with details
+of refund to the URL transferred in the request when creating the refund. A detailed description of the notification format
+is described [here](/callbacks#refund-notification-example).
+
+Please note that if you receive `result: false` in response in case of a synchronous response to a request, this means that
+you need to analyse the error code in the `error_code` field (see [description of error codes](/errors-list)). If the `error code` is not fatal, then you need to wait for the [server notification](/callbacks). If the `error code` is fatal, then the refund transaction will not be created (it will either not be created at all if basic checks
+have not passed, or it will be created with the immediate status `FAILED`). In this case, communication with our API is over.
+
+If in case of a synchronous response to a request in the response you received `result: true`, this means that you need to check the status
+of the refund transaction in the response body:
+it can be final (`SUCCESS`, `FAILED`), and then communication with the API is over, or it can be `WAITING` — then
+you have to wait for some time for a [server notification](/callbacks) from us with the final status.
+
+> **Success:**
+> Refunds are made in the currency of the paid invoice, under which the refund transaction is carried out.
+
+> **Warning:**
+> Check with the manager for available refund ways for specific payment methods.
