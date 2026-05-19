@@ -52,7 +52,7 @@ The signature is transferred in the request body through the `sign` parameter, f
 
 Signature line is generated according to the following algorithm: all request parameters involved in signature generation are ordered in the alphabetical order of keys, the values are concatenated with a colon (":") and the account secret key is added at the end (without the: `sign`), a sha256 hash is generated from the resulting line and its hex representation is passed in the sign request parameter.
 
-### Example of signature generation for a method invoice/create:
+### Example of signature generation for a method [invoice/create](/api-reference/invoice-create/invoice-issue):
 
 1. Determining the list of parameters. It looks as follows for the method in consideration:
 
