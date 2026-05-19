@@ -34,7 +34,7 @@ Every API request must be signed so that we can identify your account.
 
 The signature is transferred in the request body through the `sign` parameter, for example:
 
-`{"shop_id": 1520,"shop_order_id": "5b0efa8a-153b-4421-abac-2aba4d772a86","amount": "6320.91","currency": 840,"payway": "card_invoice_usd","description": "My test invoice #1","sign": "77a6f7a30876d480d4e771d08cb83800dd5cb874664c77e515ffc052b20293c6"}`
+<Tooltip tip="Add tooltip text">{"shop\_id": 1520,"shop\_order\_id": "5b0efa8a-153b-4421-abac-2aba4d772a86","amount": "6320.91","currency": 840,"payway": "card\_invoice\_usd","description": "My test invoice #1","sign": "77a6f7a30876d480d4e771d08cb83800dd5cb874664c77e515ffc052b20293c6"}</Tooltip>
 
 > All further request examples do not include the `"sign"` parameter, nevertheless your real requests **must** include it in the request body where required.
 
@@ -58,7 +58,7 @@ Fields involved in request signature generation:
 
 3. The line for generating the SHA256 hash will be as follows:
 
-`"299.45:840:wallet_usd:79834981:117account-secret-key"`
+`"6320.91:840:card_invoice_usd:1520:5b0efa8a-153b-4421-abac-2aba4d772a86account-secret-key"`
 
 Where `account-secret-key` is the secret identification key for your account. You can request a key from the support service.
 
