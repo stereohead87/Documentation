@@ -64,4 +64,7 @@ Signature line is generated according to the following algorithm: all request pa
 
 2.Let's sort keys in alphabetical sequence: `"amount", "currency", "payway", "shop_id", "shop_order_id"` 3. The line for generating the SHA256 hash will be as follows: `6320.91:840:card_invoice_usd:1520:5b0efa8a-153b-4421-abac-2aba4d772a86account-secret-key"` Where account-secret-key is the secret identification key for your account. You can request a key from the support service. 4. Let's get a hash expression of the generated line using Python code:
 
-> > > > string\_to\_sign = '6320.91:840:card\_invoice\_usd:1520:5b0efa8a-153b-4421-abac-2aba4d772a86account-secret-key' import hashlib sign = hashlib.sha256(string\_to\_sign.encode()).hexdigest() print(sign) '77a6f7a30876d480d4e771d08cb83800dd5cb874664c77e515ffc052b20293c6'
+`string\_to\_sign = '6320.91:840:card\_invoice\_usd:1520:5b0efa8a-153b-4421-abac-2aba4d772a86account-secret-key' 
+import hashlib 
+sign = hashlib.sha256(string\_to\_sign.encode()).hexdigest() 
+print(sign) '77a6f7a30876d480d4e771d08cb83800dd5cb874664c77e515ffc052b20293c6'`
