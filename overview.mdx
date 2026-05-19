@@ -10,23 +10,70 @@ API runs over HTTP(S) protocol and uses JSON format to exchange data.
 
 All API requests must use `UTF-8` encoding and specify the `Content-Type: application/json` header. Each request must be signed, the signature generation process is described below, in the **Request signature** section.
 
-We use the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) standard as the date and time formats, if the time zone is not specified, then [UTC+03:00](https://en.wikipedia.org/wiki/Time_zone) is assumed.
+We use the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) standard as the date and time formats, if the time zone is not specified, then [UTC\+03:00](https://en.wikipedia.org/wiki/Time_zone) is assumed.
 
 ## API changes
 
-To ensure that our API improvements do not break your integration, please consider the following list of backward compatible changes that can occur without increasing your M4  API version number.
+To ensure that our API improvements do not break your integration, please consider the following list of backward compatible changes that can occur without increasing your M4 API version number.
 
-> **Success:**
-> We consider the following changes to our services to be backward-compatible:
+> **Success:** We consider the following changes to our services to be backward-compatible:
 
-* Adding new optional request parameters to existing API methods
-* Adding new fields to existing API responses (disregarding nullability)
-* Changing the order of fields in existing API responses
-* Adding new error codes
-* Adding new optional HTTP request headers
-* Adding new HTTP response headers
-* Adding new types of callback notifications
-* Changing the order of fields in callback notifications
-* Adding new fields in callback notification (while complying with the request signing rules)
+- Adding new optional request parameters to existing API methods
+- Adding new fields to existing API responses (disregarding nullability)
+- Changing the order of fields in existing API responses
+- Adding new error codes
+- Adding new optional HTTP request headers
+- Adding new HTTP response headers
+- Adding new types of callback notifications
+- Changing the order of fields in callback notifications
+- Adding new fields in callback notification (while complying with the request signing rules)
 
 ## Request signature
+
+Every API request must be signed so that we can identify your account.
+
+The signature is transferred in the request body through the `sign` parameter, for example:
+
+`{"shop_id": 1520,"shop_order_id": "5b0efa8a-153b-4421-abac-2aba4d772a86","amount": "6320.91","currency": 840,"payway": "card_invoice_usd","description": "My test invoice #1","sign": "77a6f7a30876d480d4e771d08cb83800dd5cb874664c77e515ffc052b20293c6"}`
+
+> All further request examples do not include the `"sign"` parameter, nevertheless your real requests **must** include it in the request body where required.
+
+Signature line is generated according to the following algorithm: all request parameters involved in signature generation are ordered in the alphabetical order of keys, the values are concatenated with a colon (":") and the account secret key is added at the end (without the: `sign`), a sha256 hash is generated from the resulting line and its hex representation is passed in the sign request parameter.
+
+### Example of signature generation for a method [invoice/create](https://docs.m3ii.tech/#operation/post-invoice-create):
+
+1. Determining the list of parameters. It looks as follows for the method in consideration:
+
+Fields involved in request signature generation:
+
+- `shop_id`
+- `shop_order_id`
+- `amount`
+- `currency`
+- `payway`
+
+2. Let's sort keys in alphabetical sequence:
+
+`"amount", "currency", "payway", "shop_id", "shop_order_id"`
+
+3. The line for generating the SHA256 hash will be as follows:
+
+`"299.45:840:wallet_usd:79834981:117account-secret-key"`
+
+Where `account-secret-key` is the secret identification key for your account. You can request a key from the support service.
+
+4. Let's get a hash expression of the generated line using Python code:
+
+```python
+>>> string_to_sign = '6320.91:840:card_invoice_usd:1520:5b0efa8a-153b-4421-abac-2aba4d772a86account-secret-key'
+>>> import hashlib
+>>> sign = hashlib.sha256(string_to_sign.encode()).hexdigest()
+>>> print(sign)
+'77a6f7a30876d480d4e771d08cb83800dd5cb874664c77e515ffc052b20293c6'
+```
+
+You can check whether you have generated the signature correctly using the service [https://www.xorbin.com/tools/sha256-hash-calculator](https://www.xorbin.com/tools/sha256-hash-calculator).
+
+**Security Scheme Type:** API Key
+
+**RequestBody parameter name:** `sign`
