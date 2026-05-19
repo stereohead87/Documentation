@@ -4,7 +4,7 @@ title: "M4 Payment Gateway API (1.0.0)"
 
 ## Description
 
-Using this API, you can interact with M4  payment platform: accept payments, make payments and perform other operations supported by the platform.
+Using this API, you can interact with M4 payment platform: accept payments, make payments and perform other operations supported by the platform.
 
 API runs over HTTP(S) protocol and uses JSON format to exchange data.
 
@@ -27,53 +27,3 @@ To ensure that our API improvements do not break your integration, please consid
 - Adding new types of callback notifications
 - Changing the order of fields in callback notifications
 - Adding new fields in callback notification (while complying with the request signing rules)
-
-## Request signature
-
-Every API request must be signed so that we can identify your account.
-
-The signature is transferred in the request body through the `sign` parameter, for example:
-
-<Tooltip tip="Add tooltip text">{"shop\_id": 1520,"shop\_order\_id": "5b0efa8a-153b-4421-abac-2aba4d772a86","amount": "6320.91","currency": 840,"payway": "card\_invoice\_usd","description": "My test invoice #1","sign": "77a6f7a30876d480d4e771d08cb83800dd5cb874664c77e515ffc052b20293c6"}</Tooltip>
-
-> All further request examples do not include the `"sign"` parameter, nevertheless your real requests **must** include it in the request body where required.
-
-Signature line is generated according to the following algorithm: all request parameters involved in signature generation are ordered in the alphabetical order of keys, the values are concatenated with a colon (":") and the account secret key is added at the end (without the: `sign`), a sha256 hash is generated from the resulting line and its hex representation is passed in the sign request parameter.
-
-### Example of signature generation for a method [invoice/create](https://docs.m3ii.tech/#operation/post-invoice-create):
-
-1. Determining the list of parameters. It looks as follows for the method in consideration:
-
-Fields involved in request signature generation:
-
-- `shop_id`
-- `shop_order_id`
-- `amount`
-- `currency`
-- `payway`
-
-2. Let's sort keys in alphabetical sequence:
-
-`"amount", "currency", "payway", "shop_id", "shop_order_id"`
-
-3. The line for generating the SHA256 hash will be as follows:
-
-`"6320.91:840:card_invoice_usd:1520:5b0efa8a-153b-4421-abac-2aba4d772a86account-secret-key"`
-
-Where `account-secret-key` is the secret identification key for your account. You can request a key from the support service.
-
-4. Let's get a hash expression of the generated line using Python code:
-
-```python
->>> string_to_sign = '6320.91:840:card_invoice_usd:1520:5b0efa8a-153b-4421-abac-2aba4d772a86account-secret-key'
->>> import hashlib
->>> sign = hashlib.sha256(string_to_sign.encode()).hexdigest()
->>> print(sign)
-'77a6f7a30876d480d4e771d08cb83800dd5cb874664c77e515ffc052b20293c6'
-```
-
-You can check whether you have generated the signature correctly using the service [https://www.xorbin.com/tools/sha256-hash-calculator](https://www.xorbin.com/tools/sha256-hash-calculator).
-
-**Security Scheme Type:** API Key
-
-**RequestBody parameter name:** `sign`

@@ -46,10 +46,10 @@
           },
           {
             "group": "Recurrent invoice",
-            "expanded": false,
             "pages": [
               "invoice-recurrent"
-            ]
+            ],
+            "hidden": true
           },
           {
             "group": "Invoice statuses",
