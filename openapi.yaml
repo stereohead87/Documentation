@@ -204,8 +204,8 @@ tags:
             "ps_currency": "840",
             "payway": "some_payway_name",
             "ps_data": "{\\"amount\\": \\"20.00\\", \\"bill_id\\": \\"i_100\\", \\"ccy\\": \\"USD\\", \\"command\\": \\"bill\\", \\"comment\\": \\"[i_100] Payment\\", \\"error\\": 0, \\"prv_name\\": \\"PaymentSystem\\", \\"ps_payer_account\\": \\"150010000097\\", \\"status\\": \\"paid\\", \\"user\\": \\"tel:+150010000097\\"}",
-            "created": "2020-08-21T15:38:07",
-            "updated": "2020-08-21T15:38:07",
+            "created": "2026-08-27T15:38:07",
+            "updated": "2026-08-27T15:38:07",
             "status": "success",
             "addons": "{\\"callback_rejected_url\\": \\"https://some-shop.com/callback-rejected-url\\", \\"callback_url\\": \\"https://some-shop.com/callback-url\\", \\"description\\": \\"Some payment\\", \\"failed_url\\": \\"https://some-shop.com/fail\\", \\"phone\\": \\"150010000097\\", \\"success_url\\": \\"https://some-shop.com/success\\"}",
             "sign": "1d51960a52a6c7e8cf957d1a22ad2b3263603bace013facc335dd1429ecb4e97"
@@ -225,7 +225,7 @@ tags:
               't%22%3A+%22%5Bi_100%5D+Payment%22%2C+%22error%22%3A+0%2C+%22prv_na'
               'me%22%3A+%22PaymentSystem%22%2C+%22ps_payer_account%22%3A+%2297151'
               '0000000%22%2C+%22status%22%3A+%22paid%22%2C+%22user%22%3A+%22tel%3'
-              'A%2B150010000097%22%7D&created=2020-08-21T15%3A38%3A07&updated=202'
+              'A%2B150010000097%22%7D&created=2026-08-27T15%3A38%3A07&updated=202'
               '0-08-21T15%3A38%3A07&status=success&addons=%7B%22callback_rejected'
               '_url%22%3A+%22https%3A%2F%2Fsome-shop.com%2Fcallback-rejected-url%'
               '22%2C+%22callback_url%22%3A+%22https%3A%2F%2Fsome-shop.com%2Fcallb'
@@ -251,8 +251,8 @@ tags:
       #     'ps_currency': 840,
       #     'payway': 'some_payway_name',
       #     'ps_data': '{"amount": "20.00", "bill_id": "i_100", "ccy": "USD", "command": "bill", "comment": "[i_100] Payment", "error": 0, "prv_name": "PaymentSystem", "ps_payer_account": "150010000097", "status": "paid", "user": "tel:+150010000097"}',
-      #     'created': '2020-08-21T15:38:07',
-      #     'updated': '2020-08-21T15:38:07',
+      #     'created': '2026-08-27T15:38:07',
+      #     'updated': '2026-08-27T15:38:07',
       #     'status': 'success',
       #     'addons': '{"callback_rejected_url": "https://example.com/callback-rejected-url", "callback_url": "https://example.com/callback-url", "description": "Your payment description", "failed_url": "https://example.com/fail", "phone": "150010000097", "success_url": "https://example.com/success"}',
       #     'sign': '1d51960a52a6c7e8cf957d1a22ad2b3263603bace013facc335dd1429ecb4e97',
@@ -1226,7 +1226,7 @@ components:
             "amout": "6320.91",
             "currency": 840,
             "payway": "card_invoice_usd",
-            "description": "My test invoice #1",
+            "description": "Payment for shop_id=1520",
             "sign": "77a6f7a30876d480d4e771d08cb83800dd5cb874664c77e515ffc052b20293c6"
         }
         ```
@@ -1299,10 +1299,10 @@ components:
         payway: "card_invoice_usd"
         account: "79102471377"
         description: "Invoice for payment"
-        failed_url: "https://example.com/status/failed/"
-        success_url: "https://example.com/status/success/"
-        callback_url: "https://example.com/status/callback/"
-        callback_rejected_url: "https://example.com/status/rejected/"
+        failed_url: "https://your-domain.com/status/failed/"
+        success_url: "https://your-domain.com/status/success/"
+        callback_url: "https://your-domain.com/status/callback/"
+        callback_rejected_url: "https://your-domain.com/status/rejected/"
     InvoiceCallBack:
       oneOf:
         - $ref: '#/components/schemas/InvoiceCallBack.v1'
@@ -1370,7 +1370,7 @@ components:
         description:
           type: string
           description: Optional payment description.
-          example: 'My test invoice #1'
+          example: 'Payment for shop_id=1520'
           maxLength: 255
     InvoicePayload.v1:
       title: Invoice issue parameters
@@ -1526,22 +1526,22 @@ components:
           type: string
           description: URL where the payer will be redirected after unsuccessful invoice payment.
           format: uri
-          example: https://example.com/status/failed/
+          example: https://your-domain.com/status/failed/
         success_url:
           type: string
           format: uri
-          example: https://example.com/status/success/
+          example: https://your-domain.com/status/success/
           description: URL where the payer will be redirected after successful invoice payment.
         callback_url:
           type: string
           description: URL where the notification about successful payment will be sent.
           format: uri
-          example: https://example.com/status/callback/
+          example: https://your-domain.com/status/callback/
         callback_rejected_url:
           type: string
           description: URL where the notification about unsuccessful payment will be sent.
           format: uri
-          example: https://example.com/status/rejected/
+          example: https://your-domain.com/status/rejected/
     InvoiceCreateBase.v1:
       allOf:
         - $ref: '#/components/schemas/InvoicePayload.v1'
@@ -1552,7 +1552,7 @@ components:
         client_ip:
           type: string
           format: IPv4
-          example: 127.0.0.1
+          example: 192.168.1.1
           description: Payer IP address
     InvoiceCreateExpiresAt.v1:
       type: object
@@ -1814,7 +1814,7 @@ components:
         now:
           type: string
           format: date-time
-          example: '2020-05-24T16:35:42'
+          example: '2026-05-24T16:35:42'
           description: Request date and time.
       required:
         - now
@@ -1827,7 +1827,7 @@ components:
       type: string
       title: Payment description
       description: Payment description
-      example: Invoice for user_id=7766
+      example: Invoice for shop_id=1520
     ErrorCode.v1:
       title: M4 API error code
       type: number
@@ -1871,18 +1871,18 @@ components:
               type: string
               description: Invoice creation date and time
               format: date-time
-              example: '2020-05-24T16:35:42'
+              example: '2026-05-24T16:35:42'
             updated:
               type: string
               description: Invoice status change date and time (payment or rejection)
               format: date-time
-              example: '2020-04-21T20:09:02'
+              example: '2026-04-21T20:09:02'
             processed:
               type: string
               description: Date and time of invoice transfer to the final status
               format: date-time
               nullable: true
-              example: '2020-04-21T20:09:03'
+              example: '2026-04-21T20:09:03'
             shop_currency:
               allOf:
                 - description: Shop account currency
@@ -1891,12 +1891,12 @@ components:
               type: number
               format: float
               description: Invoice amount, in the invoice currency
-              example: 267
+              example: 359.01
             client_price:
               type: number
               format: float
               description: Amount paid by the client, in the payment system currency.
-              example: 272.34
+              example: 365
             error_code:
               $ref: '#/components/schemas/ErrorCode.v1'
       required:
@@ -1940,7 +1940,7 @@ components:
               type: number
               format: float
               description: Amount credited to the shop's balance, in currency `settlement_currency`
-              example: 98
+              example: 104
             settlement_currency:
               type: number
               description: Shop balance currency
@@ -1963,7 +1963,7 @@ components:
           type: string
           nullable: true
           format: date-time
-          example: '2023-01-01T03:00:00+03:00'
+          example: '2026-01-01T03:00:00+03:00'
           description: |
             Invoice expiration date in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.
             If invoice is not paid until this date, subsequent invoice payment will not be possible.
@@ -1999,7 +1999,8 @@ components:
             processed:
               type: string
               format: date-time
-              example: '2020-05-24T16:35:42'
+              nullable: true
+              example: '2026-05-24T16:35:42'
               description: Date and time of issuing the final invoice status
             payment_token:
               type: object
@@ -2014,7 +2015,7 @@ components:
                   title: <ISO 8601>
                   type: string
                   format: date-time
-                  example: '2024-04-21T20:07:02'
+                  example: '2026-04-21T20:07:02'
                   description: Date and time of payment token expiration
                 status:
                   $ref: '#/components/schemas/PaymentTokenStatus.v1'
@@ -2063,7 +2064,7 @@ components:
           type: number
           description: Invoice ID in the M4 system.
           format: integer
-          example: 44533
+          example: 108744
       required:
         - invoice_id
     InvoiceChargePayload.v1:
@@ -2084,7 +2085,7 @@ components:
               type: number
               format: float
               description: Amount credited to the shop's balance, in currency `settlement_currency`
-              example: 98
+              example: 104
             settlement_currency:
               type: number
               description: Shop balance currency
@@ -2307,11 +2308,11 @@ components:
               type: string
               description: The URL to which the callback will be sent after the refund transitions to the final status.
               format: uri
-              example: https://example.com/status/callback/
+              example: https://your-domain.com/status/callback/
             description:
               type: string
               description: Optional description of the refund.
-              example: 'My test refund #1'
+              example: 'Refund payment for shop_id=1520'
               maxLength: 255
           required:
             - shop_id
@@ -2362,13 +2363,13 @@ components:
               type: string
               description: Date and time when the refund was created
               format: date-time
-              example: '2020-05-24T16:35:42'
+              example: '2026-05-24T16:35:42'
             processed_at:
               nullable: true
               type: string
               description: Date and time of actual processing of the refund in the payment system
               format: date-time
-              example: '2020-04-21T20:08:02'
+              example: '2026-04-21T20:08:02'
             settlement_amount:
               type: string
               minimum: 0
@@ -2901,18 +2902,18 @@ components:
         shop_order_id: 5b0efa8a-153b-4421-abac-2aba4d772a86
         shop_id: 1
         status: success
-        payment_id: 12
+        payment_id: 91
         ps_data: '{"ps_payer_account": "455610XXXXXX2032"}'
         ps_currency: 840
         payway: card_payway_usd
-        description: Invoice for user_id=7766
-        created: '2023-11-01T17:19:36'
-        updated: '2023-11-01T17:19:37'
-        processed: '2023-11-01T17:19:37'
+        description: Invoice for shop_id=1520
+        created: '2026-11-01T17:19:36'
+        updated: '2026-11-01T17:19:37'
+        processed: '2026-11-01T17:19:37'
         shop_currency: 840
-        shop_amount: 100
-        shop_refund: 98
-        client_price: 100
+        shop_amount: 200
+        shop_refund: 104
+        client_price: 200
         error_code: 0
         sign: string
         addons: '{"comment": "test"}'
@@ -2942,18 +2943,18 @@ components:
             shop_order_id: 5b0efa8a-153b-4421-abac-2aba4d772a86
             shop_id: 1
             status: success
-            payment_id: 12
+            payment_id: 91
             ps_data: '{"ps_payer_account": "455610XXXXXX2032"}'
             ps_currency: 840
             payway: card_payway_usd
-            description: Invoice for user_id=7766
-            created: '2023-11-01T17:19:36'
-            updated: '2023-11-01T17:19:37'
-            processed: '2023-11-01T17:19:37'
+            description: Invoice for shop_id=1520
+            created: '2026-11-01T17:19:36'
+            updated: '2026-11-01T17:19:37'
+            processed: '2026-11-01T17:19:37'
             shop_currency: 840
-            shop_amount: 100
-            shop_refund: 98
-            client_price: 100
+            shop_amount: 200
+            shop_refund: 104
+            client_price: 200
             settlement_currency: 978
             settlement_rate: 1
             error_code: 0
@@ -3004,14 +3005,14 @@ components:
       example:
         shop_refund_id: 1a2c2e54-f1d1-47f0-810b-0feb21c2b31b
         status: SUCCESS
-        invoice_id: 44533
+        invoice_id: 108744
         amount: '100.23'
         currency: USD
         error_code: 0
-        created_at: '2023-11-01T17:21:15'
-        processed_at: '2023-11-01T17:21:16'
+        created_at: '2026-11-01T17:21:15'
+        processed_at: '2026-11-01T17:21:16'
         sign: string
-        addons: '{"description": "My test refund #1", "callback_url": "https://example.com/status/callback/"}'
+        addons: '{"description": "Refund payment for shop_id=1520", "callback_url": "https://your-domain.com/status/callback/"}'
     RefundCallBackWithConversionData.v1:
       title: Refund callback with conversion data
       allOf:
@@ -3051,17 +3052,17 @@ components:
           example:
             shop_refund_id: 1a2c2e54-f1d1-47f0-810b-0feb21c2b31b
             status: SUCCESS
-            invoice_id: 44533
+            invoice_id: 108744
             amount: '100.23'
             currency: USD
             error_code: 0
-            created_at: '2023-11-01T17:21:15'
-            processed_at: '2023-11-01T17:21:16'
+            created_at: '2026-11-01T17:21:15'
+            processed_at: '2026-11-01T17:21:16'
             settlement_amount: '100.23'
             settlement_currency: USD
             settlement_rate: '1.0'
             sign: string
-            addons: '{"description": "My test refund #1", "callback_url": "https://example.com/status/callback/"}'
+            addons: '{"description": "Refund payment for shop_id=1520", "callback_url": "https://your-domain.com/status/callback/"}'
 x-tagGroups:
   - name: Payments
     tags:
