@@ -1292,13 +1292,13 @@ components:
           required:
             - account
       example:
-        shop_id: 334
+        shop_id: 1520
         shop_order_id: "5b0efa8a-153b-4421-abac-2aba4d772a86"
-        amount: "110.01"
+        amount: "6320.91"
         currency: 840
-        payway: "card_payway_usd"
+        payway: "card_invoice_usd"
         account: "79102471377"
-        description: "My test invoice #1"
+        description: "Invoice for payment"
         failed_url: "https://example.com/status/failed/"
         success_url: "https://example.com/status/success/"
         callback_url: "https://example.com/status/callback/"
