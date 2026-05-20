@@ -1,17 +1,17 @@
 openapi: 3.0.2
 info:
   version: 1.0.0
-  title: M4  Payment Gateway API
+  title: M4 Payment Gateway API
   termsOfService: https://m4solutions.io/terms
   contact:
     url: https://api.m4solutions.io/gateway/v1/
-    name: M4  Support
+    name: M4 Support
   description: |-
-    ![M4  Logo](/assets/m4/images/m4-logo.png)
+    ![M4 Logo](/assets/m4/images/m4-logo.png)
 
     ## Description
 
-    Using this API, you can interact with M4  payment platform: accept payments, make payments and perform other operations supported by the platform.
+    Using this API, you can interact with M4 payment platform: accept payments, make payments and perform other operations supported by the platform.
 
     API runs over HTTP(S) protocol and uses JSON format to exchange data.
 
@@ -22,7 +22,7 @@ info:
 
     ## API changes
 
-    To ensure that our API improvements do not break your integration, please consider the following list of backward compatible changes that can occur without increasing your M4  API version number.
+    To ensure that our API improvements do not break your integration, please consider the following list of backward compatible changes that can occur without increasing your M4 API version number.
 
     <div class="success">
     <p>We consider the following changes to our services to be backward-compatible:</p>
@@ -71,7 +71,7 @@ tags:
 
       5. The response returns information with the invoice and data to be sent by the specified method to the specified URL for making or charging the payment. It is necessary to send the user to make a payment. In case `result: false`, you need to analyse the error code in the `error_code` field (see [description of error codes](#tag/errors-list)). If the `error code` is not fatal, then you need to wait for the [server notification](#tag/callbacks). If the `error code` is fatal, then communication with our API is over, it is necessary to inform the user that the payment was not created.
 
-      6. After the payment is made or charged by the user, the M4  system [sends a notification](#tag/callbacks) to the URL of interaction with the shop, containing payment information, for more information, see [here](#operation/post-invoice-create);
+      6. After the payment is made or charged by the user, the M4 system [sends a notification](#tag/callbacks) to the URL of interaction with the shop, containing payment information, for more information, see [here](#operation/post-invoice-create);
 
       7. After receiving the charge, the payment is considered successfully completed.
 
@@ -91,13 +91,13 @@ tags:
 
       5. The response returns information with the invoice issued and data to be sent by the specified method to the specified URL for making or charging the payment. It is necessary to refer the user to make the payment. In case `result: false`, you need to analyse the error code in the `error_code` field (see [description of error codes](#tag/errors-list)). If the `error code` is not fatal, then you need to wait for the [server notification](#tag/callbacks). If the `error code` is fatal, then communication with our API is over, it is necessary to inform the user that the payment was not created.
 
-      6. After payment is completed by the user, the M4  system [sends a notification](#tag/callbacks) to the shop's interaction URL, with information about the blocking of funds;
+      6. After payment is completed by the user, the M4 system [sends a notification](#tag/callbacks) to the shop's interaction URL, with information about the blocking of funds;
 
       7. After the funds are blocked on the client's account, you can charge the payment [invoice/charge](#operation/post-invoice-charge) or cancel the holding [invoice/unhold](#operation/post-invoice-unhold);
 
       8. The response returns information with the result of charge (sometimes the payment status may not be final, then you should wait for the notification);
 
-      9. M4  system [will send a notification](#tag/callbacks) to the URL of the interaction of the shop with the final status regarding the confirmation of funds withdrawal.
+      9. M4 system [will send a notification](#tag/callbacks) to the URL of the interaction of the shop with the final status regarding the confirmation of funds withdrawal.
 
       ### Ensuring payments idempotency
 
@@ -112,7 +112,7 @@ tags:
       * In case of a full refund, you refund the successfully paid payment in full.
       * In case of a partial refund - a part of the payment amount, for example, if you want to refund a part of the purchase.
 
-      After confirmation of the refund by the payment system, the M4  system [will send a notification](#tag/callbacks) with details
+      After confirmation of the refund by the payment system, the M4 system [will send a notification](#tag/callbacks) with details
       of refund to the URL transferred in the request when creating the refund. A detailed description of the notification format
       is described [here](#section/Refund-notification-example).
 
@@ -137,7 +137,7 @@ tags:
     description: |
       ### Issued invoice notice after payment or refund
 
-      After changing the payment status or returning to one of the final ones, the M4  system sends a notification to the shop to the URL specified in the shop settings or in the request body (if specified in the description of the request parameters).
+      After changing the payment status or returning to one of the final ones, the M4 system sends a notification to the shop to the URL specified in the shop settings or in the request body (if specified in the description of the request parameters).
 
       <div class="warning">
       <p>To successfully receive server-side notifications, please make sure that your server receiving HTTP requests from us is configured according to the current security standards described on <a href="https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html</a></p>
@@ -320,7 +320,7 @@ tags:
       |  3    | Payment system has failed to create the payment                     | &minus;   |
       |  4    | Payment has been successful                                         | &plus;    |
       |  5    | Payment system has failed to receive a payment notice               | &minus;   |
-      |  6    | M4  payment system has rejected the operation               | &plus;    |
+      |  6    | M4 payment system has rejected the operation               | &plus;    |
       |  8    | Funds for the invoice are withheld (held) by the payment system     | &minus;   |
   - name: withdraw-create
     x-displayName: Payout creation
@@ -382,7 +382,7 @@ tags:
   - name: errors-list
     x-displayName: List of possible errors
     description: |
-      ### List of possible M4  API errors
+      ### List of possible M4 API errors
 
       You can use this data to control the logic of your application, analyze and solve problems, output messages
       to the user, and for any other purpose. For example, if you received `error_code: 11` in the response, then most likely you
@@ -412,7 +412,7 @@ tags:
       | 10         | Invalid request parameters                                                                                                                                                          | &plus;  |
       | 11         | Shop has not been found                                                                                                                                                             | &plus;  |
       | 12         | Shop is not active                                                                                                                                                                  | &plus;  |
-      | 13         | Account has not been found in M4  system                                                                                                                                     | &plus;  |
+      | 13         | Account has not been found in M4 system                                                                                                                                     | &plus;  |
       | 14         | Account status does not allow operations                                                                                                                                            | &plus;  |
       | 15         | Request from the current IP has been rejected                                                                                                                                       | &plus;  |
       | 16         | Currency exchange rate has not been found                                                                                                                                           | &plus;  |
@@ -714,7 +714,7 @@ paths:
 
         <div class="warning">
         When funds are held, merchants are required to confirm or cancel the payment within 5 days.
-        M4  service does not automatically confirm or cancel held payments after this period.
+        M4 service does not automatically confirm or cancel held payments after this period.
 
         The funds holding period cannot exceed 5 days.
         </div>
@@ -1071,10 +1071,10 @@ paths:
         - Request signature: []
   /withdraw/status:
     post:
-      summary: Payout status request by ID of the payout created in M4  system
+      summary: Payout status request by ID of the payout created in M4 system
       operationId: post-withdraw-status
       description: |
-        To get the status and up-to-date information of payments by the M4  system ID.
+        To get the status and up-to-date information of payments by the M4 system ID.
 
         <div class="success">
         <p>Fields involved in request signature generation:</p>
@@ -1256,18 +1256,18 @@ components:
 
         3. The line for generating the SHA256 hash will be as follows:
 
-        `"299.45:840:wallet_usd:79834981:117account-secret-key"`
+        `"6320.91:840:card_invoice_usd:1520:5b0efa8a-153b-4421-abac-2aba4d772a86account-secret-key"`
 
         Where `account-secret-key` is the secret identification key for your account. You can request a key from the support service.
 
         4. Let's get a hash expression of the generated line using Python code:
 
         ```python
-        >>> string_to_sign = '299.45:840:wallet_usd:79834981:117account-secret-key'
+        >>> string_to_sign = '6320.91:840:card_invoice_usd:1520:5b0efa8a-153b-4421-abac-2aba4d772a86account-secret-key'
         >>> import hashlib
         >>> sign = hashlib.sha256(string_to_sign.encode()).hexdigest()
         >>> print(sign)
-        'e20aa5afde0a62800102d4c7ed5e7ec77b3eb48966337166668af88e3549f1a1'
+        '77a6f7a30876d480d4e771d08cb83800dd5cb874664c77e515ffc052b20293c6'
         ```
 
         <div class="success">
@@ -1318,7 +1318,7 @@ components:
         shop_id:
           type: integer
           example: 1520
-          description: Unique shop identifier in the M4  system.
+          description: Unique shop identifier in the M4 system.
       required:
         - shop_id
     ShopOrderID.v1:
@@ -1561,7 +1561,7 @@ components:
           title: <ISO 8601>
           type: string
           format: date-time
-          example: '2023-01-01T00:00:00Z'
+          example: '2026-06-01T00:00:00Z'
           description: |
             Invoice expiration date in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.
             If invoice is not paid until this date, subsequent invoice payment will not be possible.
@@ -1578,7 +1578,7 @@ components:
               description: |-
                 Bank card details should be sent when:
                 - You have a PCI DSS certificate
-                - You do not need a page on the M4  side to get card details from the buyer
+                - You do not need a page on the M4 side to get card details from the buyer
 
                 In case the payment way to the cards is used and the card data is not transmitted, the response to the request will contain a link to redirect the buyer to enter the card details.
                 Also, `method`, `url` and `data` will be filled in if the user needs to be redirected to pass the 3DSecure check.
@@ -1586,12 +1586,12 @@ components:
                 number:
                   type: string
                   description: Bank Card number
-                  example: '4916651071478312'
+                  example: '5395455214142417'
                 cardholder:
                   type: string
                   pattern: ' ^[0-9A-Z-/ _.'']{1,26}$'
                   description: Cardholder name. If name is not provided default value «Card Holder» will be used
-                  example: JENNIFER GREEN
+                  example: ADAM SMITH
                 expiry_month:
                   type: string
                   pattern: ' (^0?[1-9]{1}$)|(^1[012]{1}$)'
@@ -1601,11 +1601,11 @@ components:
                   type: string
                   description: Bank card expiration year
                   pattern: ^\d{2}$
-                  example: '27'
+                  example: '30'
                 cvv:
                   type: string
                   description: Secure code
-                  example: '876'
+                  example: '184'
                   minLength: 3
                   maxLength: 4
               required:
@@ -1615,7 +1615,7 @@ components:
                 - cvv
             issue_payment_token:
               type: boolean
-              example: true
+              example: false
               description: This parameter is used to generate a payment token. More details [invoice/recurrent](#tag/invoice-recurrent)
             client_info:
               type: object
@@ -1721,8 +1721,8 @@ components:
               type: string
         id:
           type: number
-          example: 44533
-          description: Unique invoice identifier in M4  system
+          example: 340198
+          description: Unique invoice identifier in M4 system
         method:
           type: string
           nullable: true
@@ -1746,13 +1746,13 @@ components:
               type: string
               format: uuid
               description: Payment token
-              example: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+              example: 980fba62-94d9-4489-bf4c-75b43eecf134
             expires_at:
               title: <ISO 8601>
               nullable: true
               type: string
               format: date-time
-              example: '2024-04-21T20:07:02'
+              example: '2026-10-21T16:48:22'
               description: Date and time of payment token expiration
             status:
               type: string
@@ -1770,7 +1770,7 @@ components:
                   * `FAILED` - token creation failed
             account:
               type: string
-              example: 411111XXXXXX1111
+              example: 412103XXXXXX7701
               description: Masked number of the account (card or wallet) for which the token was issued
             card_info:
               type: object
@@ -1814,7 +1814,7 @@ components:
         now:
           type: string
           format: date-time
-          example: '2020-04-21T20:07:02'
+          example: '2020-05-24T16:35:42'
           description: Request date and time.
       required:
         - now
@@ -1829,11 +1829,11 @@ components:
       description: Payment description
       example: Invoice for user_id=7766
     ErrorCode.v1:
-      title: M4  API error code
+      title: M4 API error code
       type: number
       format: integer
       example: 0
-      description: 'M4  API error code. `0` in cases there is no any error. Other codes can be found here: [Description of error codes](#tag/errors-list)'
+      description: 'M4 API error code. `0` in cases there is no any error. Other codes can be found here: [Description of error codes](#tag/errors-list)'
       required:
         - error_code
     BaseInvoiceStatus.v1:
@@ -1846,7 +1846,7 @@ components:
             status: {}
             payment_id:
               type: integer
-              description: Unique identifier of the issued invoice in M4  system
+              description: Unique identifier of the issued invoice in M4 system
               example: 12
             ps_data:
               type: string
@@ -1856,14 +1856,14 @@ components:
                 Other fields depend on the payment system.
 
                 In case of payment tokens, the `payment_token` parameter will also be represented in this field.
-              example: '{"ps_payer_account": "411111XXXXXX1111", "bill_id": "7766", "amount": "190.99", "status": "success"}'
+              example: '{"ps_payer_account": "412103XXXXXX7701", "bill_id": "7766", "amount": "190.99", "status": "success"}'
             ps_currency:
               allOf:
                 - description: Currency of the payway used by the user for payment
                 - $ref: '#/components/schemas/Currency.v1'
             payway:
               allOf:
-                - description: Payway in M4  system used by the user for payment
+                - description: Payway in M4 system used by the user for payment
                 - $ref: '#/components/schemas/Payway.v1'
             description:
               $ref: '#/components/schemas/InvoiceDescription.v1'
@@ -1871,7 +1871,7 @@ components:
               type: string
               description: Invoice creation date and time
               format: date-time
-              example: '2020-04-21T20:07:02'
+              example: '2020-05-24T16:35:42'
             updated:
               type: string
               description: Invoice status change date and time (payment or rejection)
@@ -1999,7 +1999,7 @@ components:
             processed:
               type: string
               format: date-time
-              example: '2020-04-21T20:07:02'
+              example: '2020-05-24T16:35:42'
               description: Date and time of issuing the final invoice status
             payment_token:
               type: object
@@ -2009,7 +2009,7 @@ components:
                   type: string
                   format: uuid
                   description: Payment token
-                  example: 4f6cf35x-2c4y-483z-a0a9-158621f77a21
+                  example: 980fba62-94d9-4489-bf4c-75b43eecf134
                 expires_at:
                   title: <ISO 8601>
                   type: string
@@ -2020,7 +2020,7 @@ components:
                   $ref: '#/components/schemas/PaymentTokenStatus.v1'
                 account:
                   type: string
-                  example: 411111XXXXXX1111
+                  example: 412103XXXXXX7701
                   description: Masked number of the account (card or wallet) for which the token was issued
                 card_info:
                   type: object
@@ -2038,7 +2038,7 @@ components:
                       description: Issuing bank
                     payment_system:
                       type: string
-                      example: VISA
+                      example: MASTERCARD
                       description: Payment system type
                     funding_source:
                       type: string
@@ -2046,7 +2046,7 @@ components:
                       description: Card type
                     payment_system_product:
                       type: string
-                      example: GOLD
+                      example: PLATINUM
                       description: Card category
               required:
                 - token
@@ -2061,7 +2061,7 @@ components:
       properties:
         invoice_id:
           type: number
-          description: Invoice ID in the M4  system.
+          description: Invoice ID in the M4 system.
           format: integer
           example: 44533
       required:
@@ -2362,7 +2362,7 @@ components:
               type: string
               description: Date and time when the refund was created
               format: date-time
-              example: '2020-04-21T20:07:02'
+              example: '2020-05-24T16:35:42'
             processed_at:
               nullable: true
               type: string
@@ -2715,7 +2715,7 @@ components:
             withdraw_id:
               type: integer
               example: 121
-              description: Payout (withdraw) ID in M4  system.
+              description: Payout (withdraw) ID in M4 system.
           required:
             - withdraw_id
       description: ''
@@ -2736,7 +2736,7 @@ components:
           properties:
             id:
               type: integer
-              description: Payout ID in M4  system
+              description: Payout ID in M4 system
             status:
               $ref: '#/components/schemas/Status.v1'
             ps_currency:
