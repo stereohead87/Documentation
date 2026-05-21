@@ -202,13 +202,13 @@ tags:
             "payment_id": 1234,
             "client_price": 100.0,
             "ps_currency": "840",
-            "payway": "some_payway_name",
+            "payway": "payway_example",
             "ps_data": "{\\"amount\\": \\"20.00\\", \\"bill_id\\": \\"i_100\\", \\"ccy\\": \\"USD\\", \\"command\\": \\"bill\\", \\"comment\\": \\"[i_100] Payment\\", \\"error\\": 0, \\"prv_name\\": \\"PaymentSystem\\", \\"ps_payer_account\\": \\"150010000097\\", \\"status\\": \\"paid\\", \\"user\\": \\"tel:+150010000097\\"}",
             "created": "2026-08-27T15:38:07",
             "updated": "2026-08-27T15:38:07",
             "status": "success",
             "addons": "{\\"callback_rejected_url\\": \\"https://some-shop.com/callback-rejected-url\\", \\"callback_url\\": \\"https://some-shop.com/callback-url\\", \\"description\\": \\"Some payment\\", \\"failed_url\\": \\"https://some-shop.com/fail\\", \\"phone\\": \\"150010000097\\", \\"success_url\\": \\"https://some-shop.com/success\\"}",
-            "sign": "1d51960a52a6c7e8cf957d1a22ad2b3263603bace013facc335dd1429ecb4e97"
+            "sign": "26bcafa4b08dcfa901e47caa977c75ed286bb4390fb8271eb96e2f46470ffbf7"
       }"""
 
       import json
@@ -219,7 +219,7 @@ tags:
           request_body_form_urlencoded = (
               'shop_id=1&shop_order_id=The+store's+order+ID&description=Your+payment+description&s'
               'hop_amount=20.0&shop_refund=19.0&shop_currency=840&payment_id=100&'
-              'client_price=20.0&ps_currency=840&payway=some_payway_name&ps_data='
+              'client_price=20.0&ps_currency=840&payway=payway_example&ps_data='
               '%7B%22amount%22%3A+%2220.00%22%2C+%22bill_id%22%3A+%22i_100%22%2C+'
               '%22ccy%22%3A+%22USD%22%2C+%22command%22%3A+%22bill%22%2C+%22commen'
               't%22%3A+%22%5Bi_100%5D+Payment%22%2C+%22error%22%3A+0%2C+%22prv_na'
@@ -232,8 +232,8 @@ tags:
               'ack-url%22%2C+%22description%22%3A+%22Some+payment%22%2C+%22failed'
               '_url%22%3A+%22https%3A%2F%2Fsome-shop.com%2Ffail%22%2C+%22phone%22'
               '%3A+%22150010000097%22%2C+%22success_url%22%3A+%22https%3A%2F%2Fso'
-              'me-shop.com%2Fsuccess%22%7D&sign=1d51960a52a6c7e8cf957d1a22ad2b326'
-              '3603bace013facc335dd1429ecb4e97'
+              'me-shop.com%2Fsuccess%22%7D&sign=26bcafa4b08dcfa901e47caa977c75ed2'
+              '86bb4390fb8271eb96e2f46470ffbf7'
           )
           from urllib.parse import parse_qsl
           parsed_request = dict(parse_qsl(request_body_form_urlencoded))
@@ -249,13 +249,13 @@ tags:
       #     'payment_id': '100',
       #     'client_price': 20.0,
       #     'ps_currency': 840,
-      #     'payway': 'some_payway_name',
+      #     'payway': 'payway_example',
       #     'ps_data': '{"amount": "20.00", "bill_id": "i_100", "ccy": "USD", "command": "bill", "comment": "[i_100] Payment", "error": 0, "prv_name": "PaymentSystem", "ps_payer_account": "150010000097", "status": "paid", "user": "tel:+150010000097"}',
       #     'created': '2026-08-27T15:38:07',
       #     'updated': '2026-08-27T15:38:07',
       #     'status': 'success',
       #     'addons': '{"callback_rejected_url": "https://example.com/callback-rejected-url", "callback_url": "https://example.com/callback-url", "description": "Your payment description", "failed_url": "https://example.com/fail", "phone": "150010000097", "success_url": "https://example.com/success"}',
-      #     'sign': '1d51960a52a6c7e8cf957d1a22ad2b3263603bace013facc335dd1429ecb4e97',
+      #     'sign': '5d3ea83ec487fb1a769942b348741eafa5b124073d9bca968977731b724ee397',
       # }
 
       # Let's get a list of sorted keys for signature generation
@@ -577,7 +577,7 @@ paths:
         For the data specified in the example response below, the following HTML form will be obtained:
 
         ```html
-        <form method="POST" action="https://checkout.domain.com/form/">
+        <form method="POST" action="https://example.checkout.com/form/">
           <input name="transaction_id" value="1231" />
           <input name="payment_type" value="card" />
           <input name="fail_url" value="https://example.com/payment/?status=fail" />
@@ -595,7 +595,7 @@ paths:
         redirect_url = '{url}?{parameters}'.format(url=data['url'], parameters=urllib.parse.urlencode(data['data']))
         ```
 
-        An example of the formed URL: `https://checkout.domain.com/form/?transaction_id=1231&payment_type=card&fail_url=https%3A%2F%2Fexample.com%2Fpayment%2F%3Fstatus%3Dfail&success_url=https%3A%2F%2Fexample.com%2Fpayment%2F%3Fstatus%3Dsuccess`
+        An example of the formed URL: `https://example.checkout.com/form/?transaction_id=1231&payment_type=card&fail_url=https%3A%2F%2Fexample.com%2Fpayment%2F%3Fstatus%3Dfail&success_url=https%3A%2F%2Fexample.com%2Fpayment%2F%3Fstatus%3Dsuccess`
 
         <div class="attention">
         Please note that the parameters <code>failed_url</code>, <code>success_url</code>, <code>callback_url</code>, <code>callback_rejected_url</code> specified in the shop settings have priority over those specified in request. If you want to use unique url for each request, you need to inform the manager about it.
@@ -1735,7 +1735,7 @@ components:
           type: string
           format: uri
           nullable: true
-          example: https://checkout.domain.com/form/
+          example: https://example.checkout.com/form/
           description: URL subject to which the contents of the `data` field should be sent by the `method`. If `null` is received, then you do not need to send it.
         payment_token:
           type: object
@@ -2128,15 +2128,15 @@ components:
         id:
           type: integer
           description: Payment method ID.
-          example: 10
+          example: 15
         name:
           type: string
           description: Payment method name.
-          example: card-usd
+          example: card_payment_usd
         rating:
           type: integer
           description: Payment method rating.
-          example: 2
+          example: 1
         payways:
           type: array
           description: Payways available to the store.
@@ -2154,14 +2154,14 @@ components:
           type: number
           description: A commission percentage, which is set under the agreement for the shop.
           format: float
-          example: 4.6
+          example: 3.8
           minimum: 0
           maximum: 100
         fix:
           type: number
           description: A fixed commission rate, which is set under the agreement for the shop.
           format: float
-          example: 1.2
+          example: 1.4
           minimum: 0
       required:
         - percent
@@ -2172,7 +2172,7 @@ components:
       properties:
         alias:
           type: string
-          example: example_payway_card_usd
+          example: payway_card_usd_example
           description: Payway alias.
         currency:
           $ref: '#/components/schemas/Currency.v1'
@@ -2204,7 +2204,7 @@ components:
             Distribution of percentage commission between the payer and the shop.
              0 - for the payer, 1 - for the shop.
           format: float
-          example: 0.1
+          example: 0.05
           minimum: 0
           maximum: 1
         fix_part:
@@ -2242,7 +2242,7 @@ components:
                   regex: ^(91|994|82|372|375|374|44|998|972|66|90|81|1|507|7|77|380|371|370|996|9955|992|373|84)[0-9]{6,14}$
             id:
               type: integer
-              example: 121
+              example: 99
               description: Payway ID
             fee_part_config:
               $ref: '#/components/schemas/FeePartConfig.v1'
@@ -2280,7 +2280,7 @@ components:
       properties:
         shop_refund_id:
           type: string
-          example: 1a2c2e54-f1d1-47f0-810b-0feb21c2b31b
+          example: dc4ad503-d97a-4fec-adeb-ba51d43a7191
           description: The refund ID in your system. *Must be unique for each new refund.*
           maxLength: 255
       required:
@@ -2290,7 +2290,7 @@ components:
       type: string
       description: |
         Refund amount, calculated in `currency`.
-      example: '100.23'
+      example: '95.50'
       exclusiveMinimum: true
       minimum: 0
     InvoiceRefundPayload.v1:
@@ -2374,7 +2374,7 @@ components:
               type: string
               minimum: 0
               description: Amount of write-off from the shop balance, in currency `settlement_currency`
-              example: '100.23'
+              example: '95.50'
             settlement_currency:
               type: string
               description: Shop balance currency. Alphabetic currency identifier in accordance with [ISO 4217](https://wikipedia.org/wiki/ISO_4217).
@@ -2529,7 +2529,7 @@ components:
         payee_receive:
           type: number
           description: Amount to be received on the account in `ps_currency` currency.
-          example: 100
+          example: 150
         ps_currency:
           allOf:
             - description: Payway currency for withdrawal
@@ -2539,12 +2539,12 @@ components:
         shop_write_off:
           type: number
           description: Amount to be debited from the shop in `shop_currency` currency.
-          example: '104'
+          example: '160'
     AccountDetails.v1:
       title: Detailed account information
       type: object
       example:
-        name: Ivan
+        name: Adam
       description: Detailed account information. If additional parameters were transferred in the `/withdraw/try` response in the `account_info_config` field, they must be transferred in the `account_details` field.
     CheckAccountPayload.v1:
       title: Account verification parameters
@@ -2573,8 +2573,8 @@ components:
           nullable: true
           description: Additional information returned from the service provider. It can be displayed to the payer, as it often contains their personal information, for example, the full name of the account holder.
           example:
-            first_name: Ivan
-            last_name: Ivanov
+            first_name: Adam
+            last_name: Smith
         result:
           type: boolean
           example: true
@@ -2616,7 +2616,7 @@ components:
               $ref: '#/components/schemas/AccountDetails.v1'
             description:
               type: string
-              example: It's payout for my friend
+              example: Payout to my worker
               description: Description of the payout. Transferred in the payway provided that the payment system has this function.
               maxLength: 255
           required:
@@ -2677,10 +2677,10 @@ components:
               properties:
                 key1:
                   type: string
-                  example: value1
+                  example: example_1
                 key2:
                   type: string
-                  example: value2
+                  example: example_2
             method:
               type: string
               enum:
@@ -2692,7 +2692,7 @@ components:
               type: string
               description: URL to which it is necessary to send the content of `data` field using `method`
               format: uri
-              example: https://checkout.domain.com/form/
+              example: https://example.checkout.com/form/
           required:
             - data
             - method
@@ -2762,11 +2762,11 @@ components:
               description: Unique payment identifier of the shop.
             rrn:
               type: string
-              example: 7a8ebcd5-d811-44c6-84bd-af0b54ed2b59
+              example: c16d5ef3-540e-42c3-b172-bb4f15a92f31
               description: Payout ID in the payment system.
             bank_transaction_id:
               type: string
-              example: 19562196-cb30-40c9-aaff-389bb2c7f8b0
+              example: 5aa56edd-b8c0-417b-ad9d-2cd42693e7c0
               description: Payout ID in the beneficiary's bank system.
             error_code:
               $ref: '#/components/schemas/ErrorCode.v1'
@@ -2842,7 +2842,7 @@ components:
           description: Frozen funds on the balance, for example, for a created payment that is being processed
           type: number
           format: float
-          example: 10000.1
+          example: 574190.63
           minimum: 0
     ShopBalancesResponseData.v1:
       title: Shop balances in different currencies available during payments
@@ -3003,10 +3003,10 @@ components:
         - sign
         - addons
       example:
-        shop_refund_id: 1a2c2e54-f1d1-47f0-810b-0feb21c2b31b
+        shop_refund_id: dc4ad503-d97a-4fec-adeb-ba51d43a7191
         status: SUCCESS
         invoice_id: 108744
-        amount: '100.23'
+        amount: '95.50'
         currency: USD
         error_code: 0
         created_at: '2026-11-01T17:21:15'
@@ -3050,15 +3050,15 @@ components:
             - sign
             - addons
           example:
-            shop_refund_id: 1a2c2e54-f1d1-47f0-810b-0feb21c2b31b
+            shop_refund_id: dc4ad503-d97a-4fec-adeb-ba51d43a7191
             status: SUCCESS
             invoice_id: 108744
-            amount: '100.23'
+            amount: '95.50'
             currency: USD
             error_code: 0
             created_at: '2026-11-01T17:21:15'
             processed_at: '2026-11-01T17:21:16'
-            settlement_amount: '100.23'
+            settlement_amount: '95.50'
             settlement_currency: USD
             settlement_rate: '1.0'
             sign: string
