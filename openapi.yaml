@@ -4,7 +4,7 @@ info:
   title: M4 Payment Gateway API
   termsOfService: https://m4solutions.io/terms
   contact:
-    url: https://api.m4solutions.io/gateway/v1/
+    url: https://api.m4psp.com/gateway/v1/
     name: M4 Support
   description: |-
     ![M4 Logo](/assets/m4/images/m4-logo.png)
@@ -42,7 +42,7 @@ info:
 
     <SecurityDefinitions />
 servers:
-  - url: https://api.m4solutions.io/gateway/v1/
+  - url: https://api.m4psp.com/gateway/v1/
     description: The production API server
 tags:
   - name: invoice-create
