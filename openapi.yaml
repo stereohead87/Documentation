@@ -44,6 +44,8 @@ info:
 servers:
   - url: https://api.m4psp.com/gateway/v1/
     description: The production API server
+  - url: https://api.test.cplus-int.tech/gateway/v1/
+    description: The test API server
 tags:
   - name: invoice-create
     x-displayName: Invoice issue (payment creation)
