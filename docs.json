@@ -3,6 +3,18 @@
   "theme": "mint",
   "name": "Documentation",
   "favicon": "/images/favicon.png",
+  "api": {
+    "baseUrl": [
+      {
+        "name": "Production",
+        "url": "https://api.m4psp.com/gateway/v1/"
+      },
+      {
+        "name": "Sandbox (Test Environment)",
+        "url": "https://api.test.cplus-int.tech/gateway/v1/"
+      }
+    ]
+  },
   "colors": {
     "primary": "#0D9373"
   },
