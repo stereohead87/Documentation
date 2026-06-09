@@ -36,7 +36,7 @@ title: "Invoice issue (payment creation)"
 6. After payment is completed by the user, the M4  system [sends a notification](/callbacks) to the shop's interaction URL, with information about the blocking of funds;
 7. After the funds are blocked on the client's account, you can charge the payment [invoice/charge](/api-reference/invoice-create/confirmation-of-funds-withdrawal-charge) or cancel the holding [invoice/unhold](/api-reference/invoice-create/cancellation-of-funds-holding);
 8. The response returns information with the result of charge (sometimes the payment status may not be final, then you should wait for the notification);
-9. M4  system [will send a notification](/callbacks) to the URL of the interaction of the shop with the final status regarding the confirmation of funds withdrawal.
+9. M4 system [will send a notification](/callbacks) to the URL of the interaction of the shop with the final status regarding the confirmation of funds withdrawal.
 
 ### Ensuring payments idempotency
 

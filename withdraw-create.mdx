@@ -25,7 +25,7 @@ If you received `result: true` after creating the payout, you should immediately
 
 If you receive the `Read timeout` error at the payout creation request, then you need to make a status request by the shop's payout number [withdraw/shop\_payment\_status](/api-reference/withdraw-create/payout-status-request-by-the-shop-payout-number) and if the response returns an error stating the absence of such a payout, you can repeat the request to create a payout. If the payout status is returned in the response, then it means that it was created and you need to focus on this status.
 
-Reason for payout rejection ([getting status 6](/withdraw-statuses)) can be clarified through the support service [support@m4solutions.io](mailto:support@m4solutions.io).
+Reason for payout rejection ([getting status 6](/withdraw-statuses)) can be clarified through the support service [support@m4psp.com](mailto:support@m4psp.com).
 
 ### Securing payouts idempotency
 
