@@ -6,33 +6,30 @@ title: "Interaction format"
 
 After changing the payment status or returning to one of the final ones, the M4  system sends a notification to the shop to the URL specified in the shop settings or in the request body (if specified in the description of the request parameters).
 
-> **Warning:**
-> To successfully receive server-side notifications, please make sure that your server receiving HTTP requests from us is configured according to the current security standards described on [https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html)
+> **Warning:** To successfully receive server-side notifications, please make sure that your server receiving HTTP requests from us is configured according to the current security standards described on [https://cheatsheetseries.owasp.org/cheatsheets/Transport\_Layer\_Protection\_Cheat\_Sheet.html](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html)
 
 Pay special attention to the TLS ciphers you support.
 
-Notifications for payments and refunds are delivered to one callback URL. You can distinguish notifications by the value of the GET parameter named `type` in the URL from which you received the notification.
-Possible values of `type`:
-* `invoice` - payment notification
-* `refund` - refund notification
+Notifications for payments and refunds are delivered to one callback URL. You can distinguish notifications by the value of the GET parameter named `type` in the URL from which you received the notification. Possible values of `type`:
+
+- `invoice` - payment notification
+- `refund` - refund notification
 
 Server notifications are sent from the following IP addresses:
 
-|IP addresses|
-|-|
-|35.198.100.222|
-|35.198.175.25|
+| IP addresses |
+| --- |
+| 35.217.3.200 |
+| 35.207.88.3 |
 
 HTTP protocol is used to send the notification:
 
-* Method: `POST`
-* Format: `Content-Type: application/json`
+- Method: `POST`
+- Format: `Content-Type: application/json`
 
-> **Success:**
-> If necessary, the support service can enable an alternative notification format: `Content-Type: application/x-www-form-urlencoded`, in this case, all the transmitted parameters will have a string representation.
+> **Success:** If necessary, the support service can enable an alternative notification format: `Content-Type: application/x-www-form-urlencoded`, in this case, all the transmitted parameters will have a string representation.
 
-> **Attention:**
-> It is **necessary** to check the values from the notification with the values in the invoice, and **to check** signature in the notification.
+> **Attention:** It is **necessary** to check the values from the notification with the values in the invoice, and **to check** signature in the notification.
 
 The signature is generated using the same algorithm as when issuing the invoice.
 
