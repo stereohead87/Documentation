@@ -57,21 +57,21 @@ The algorithm implemented below on the example of a server payment notification 
 # Resulting notification string (in format application/json)
 request_body_json = """
     {
-      "shop_id": 1,
+      "shop_id": 100,
       "shop_order_id": "The store's order ID",
       "description": "Your payment description",
-      "shop_amount": 100.0,
-      "shop_refund": 19.0,
+      "shop_amount": 95.00,
+      "shop_refund": 92.75,
       "shop_currency": 840,
       "payment_id": 1234,
-      "client_price": 100.0,
+      "client_price": 97.55,
       "ps_currency": "840",
       "payway": "some_payway_name",
-      "ps_data": "{\\"amount\\": \\"20.00\\", \\"bill_id\\": \\"i_100\\", \\"ccy\\": \\"USD\\", \\"command\\": \\"bill\\", \\"comment\\": \\"[i_100] Payment\\", \\"error\\": 0, \\"prv_name\\": \\"PaymentSystem\\", \\"ps_payer_account\\": \\"971510000000\\", \\"status\\": \\"paid\\", \\"user\\": \\"tel:+971510000000\\"}",
-      "created": "2020-08-21T15:38:07",
-      "updated": "2020-08-21T15:38:07",
+      "ps_data": "{\"ps_payer_account\": \"525634XXXXXX7704\"}",
+      "created": "2026-06-01T15:38:07",
+      "updated": "2026-06-01T15:38:07",
       "status": "success",
-      "addons": "{\\"callback_rejected_url\\": \\"https://some-shop.com/callback-rejected-url\\", \\"callback_url\\": \\"https://some-shop.com/callback-url\\", \\"description\\": \\"Some payment\\", \\"failed_url\\": \\"https://some-shop.com/fail\\", \\"phone\\": \\"971510000000\\", \\"success_url\\": \\"https://some-shop.com/success\\"}",
+      "addons": "{\"comment\": \"Notification text\"}",
       "sign": "1d51960a52a6c7e8cf957d1a22ad2b3263603bace013facc335dd1429ecb4e97"
 }"""
 
@@ -81,23 +81,12 @@ parsed_request = json.loads(request_body_json)
 # Resulting notification string (in format application/x-www-form-urlencoded)
 if content_type == 'application/x-www-form-urlencoded':
     request_body_form_urlencoded = (
-        'shop_id=1&shop_order_id=The+store's+order+ID&description=Your+payment+description&s'
-        'hop_amount=20.0&shop_refund=19.0&shop_currency=840&payment_id=100&'
-        'client_price=20.0&ps_currency=840&payway=some_payway_name&ps_data='
-        '%7B%22amount%22%3A+%2220.00%22%2C+%22bill_id%22%3A+%22i_100%22%2C+'
-        '%22ccy%22%3A+%22USD%22%2C+%22command%22%3A+%22bill%22%2C+%22commen'
-        't%22%3A+%22%5Bi_100%5D+Payment%22%2C+%22error%22%3A+0%2C+%22prv_na'
-        'me%22%3A+%22PaymentSystem%22%2C+%22ps_payer_account%22%3A+%2297151'
-        '0000000%22%2C+%22status%22%3A+%22paid%22%2C+%22user%22%3A+%22tel%3'
-        'A%2B971510000000%22%7D&created=2020-08-21T15%3A38%3A07&updated=202'
-        '0-08-21T15%3A38%3A07&status=success&addons=%7B%22callback_rejected'
-        '_url%22%3A+%22https%3A%2F%2Fsome-shop.com%2Fcallback-rejected-url%'
-        '22%2C+%22callback_url%22%3A+%22https%3A%2F%2Fsome-shop.com%2Fcallb'
-        'ack-url%22%2C+%22description%22%3A+%22Some+payment%22%2C+%22failed'
-        '_url%22%3A+%22https%3A%2F%2Fsome-shop.com%2Ffail%22%2C+%22phone%22'
-        '%3A+%22971510000000%22%2C+%22success_url%22%3A+%22https%3A%2F%2Fso'
-        'me-shop.com%2Fsuccess%22%7D&sign=1d51960a52a6c7e8cf957d1a22ad2b326'
-        '3603bace013facc335dd1429ecb4e97'
+        'shop_id=100&shop_order_id=The+store%27s+order+ID&description=Your+payment+description&sh'
+        'op_amount=95.0&shop_refund=92.75&shop_currency=840&payment_id=1234&client_price=97.55&ps'
+        '_currency=840&payway=some_payway_name&ps_data=%7B%22ps_payer_account%22%3A+%22525634XXXX'
+        'XX7704%22%7D&created=2026-06-01T15%3A38%3A07&updated=2026-06-01T15%3A38%3A07&status=succ'
+        'ess&addons=%7B%22comment%22%3A+%22Notification+text%22%7D&sign=1d51960a52a6c7e8cf957d1a2'
+        '2ad2b3263603bace013facc335dd1429ecb4e97'
     )
     from urllib.parse import parse_qsl
     parsed_request = dict(parse_qsl(request_body_form_urlencoded))
@@ -106,19 +95,19 @@ print(parsed_request)
 # {
 #     'shop_id': 100,
 #     'shop_order_id': 'The store's order ID',
-#     'description': 'Some payment',
-#     'shop_amount': 20.0,
-#     'shop_refund': 19.0,
+#     'description': 'Your payment description',
+#     'shop_amount': 95.00,
+#     'shop_refund': 92.75,
 #     'shop_currency': 840,
-#     'payment_id': '100',
-#     'client_price': 20.0,
+#     'payment_id': '1234',
+#     'client_price': 97.55,
 #     'ps_currency': 840,
 #     'payway': 'some_payway_name',
-#     'ps_data': '{"amount": "20.00", "bill_id": "i_100", "ccy": "USD", "command": "bill", "comment": "[i_100] Payment", "error": 0, "prv_name": "PaymentSystem", "ps_payer_account": "971510000000", "status": "paid", "user": "tel:+971510000000"}',
-#     'created': '2020-08-21T15:38:07',
-#     'updated': '2020-08-21T15:38:07',
+#     'ps_data': '{\"ps_payer_account\": \"525634XXXXXX7704\',
+#     'created': '2026-06-01T15:38:07',
+#     'updated': '2026-06-01T15:38:07',
 #     'status': 'success',
-#     'addons': '{"callback_rejected_url": "https://example.com/callback-rejected-url", "callback_url": "https://example.com/callback-url", "description": "Your payment description", "failed_url": "https://example.com/fail", "phone": "971510000000", "success_url": "https://example.com/success"}',
+#     'addons': '{\"comment\": \"Notification text\"}',
 #     'sign': '1d51960a52a6c7e8cf957d1a22ad2b3263603bace013facc335dd1429ecb4e97',
 # }
 
