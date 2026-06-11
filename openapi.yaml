@@ -1280,31 +1280,6 @@ components:
     InvoiceCreatePayload.v1:
       oneOf:
         - $ref: '#/components/schemas/InvoiceCreateCard.v1'
-        - $ref: '#/components/schemas/InvoiceCreateFPS.v1'
-    InvoiceCreateFPS.v1:
-      title: Faster payment system
-      allOf:
-        - $ref: '#/components/schemas/InvoiceCreateBase.v1'
-        - type: object
-          properties:
-            account:
-              type: string
-              description: Payer account (phone number)
-              example: '79102471377'
-          required:
-            - account
-      example:
-        shop_id: 1520
-        shop_order_id: "5b0efa8a-153b-4421-abac-2aba4d772a86"
-        amount: "6320.91"
-        currency: 840
-        payway: "card_invoice_usd"
-        account: "79102471377"
-        description: "Invoice for payment"
-        failed_url: "https://your-domain.com/status/failed/"
-        success_url: "https://your-domain.com/status/success/"
-        callback_url: "https://your-domain.com/status/callback/"
-        callback_rejected_url: "https://your-domain.com/status/rejected/"
     InvoiceCallBack:
       oneOf:
         - $ref: '#/components/schemas/InvoiceCallBack.v1'
@@ -1708,9 +1683,9 @@ components:
       properties:
         data:
           example:
-            MD: 38e3244e2bcc4ed7a29aaa886a0e5374
-            PaReq: YPhfxL294rkdSCu7zBd6yArmgEuNhyuhCC6UNeNoql9OmgYbGcAQHkNxwZ6x0j2kLdoGytuJ9GfwxxkGLzZp5VdlQfhDd5QSK9XE68IrmgBJ1DxSsozMvGC9zGAxm2rDYqcA5HYuCQ66ocOw7P5sKQZphxm2DqoYBwji9zInFRIaTabC4UXzCjWbWT5NNpmz0ULXiOBmX6JB9BpP85UCrwWPC8Ee97gX7KRyOfZoe5Z65aKF7WLNFS5L3VffcV0YVyLKe2dXgrs3fACGrVM7dZmDFB7NiJL0yqgv5oYPjDSniZAkrlbShjILNLspVdzLwRKygvLOfEhhKvqmnoOTkNw4qfvgj4inrHnR3EcO3CozcdFh6T23sA7uP7LLZ3cHfAayfw9VpssdfeKorwajz2XdOOIrl45cXKnNLVEivyFbbUJF8wUq8bkkZXyTQGCKhqB819w2MuFu
-            TermUrl: https://card-api-test.example.com/v1/invoice/finish3ds/38e3244e2bcc4ed7a29aaa886a0e5374
+            MD: 4a9f8b2c6d1e0f7a3b5c8d2e9f0a1b3c
+            PaReq: 7xR2wM9qL1vK5bN4pZ8cC3fG6hJ0oO1iI3sD5aA7eE9tT2yY4uU6rR8wW0qQ2mM4nN6bB8vV0cC2xX4zZ6lL8kK0jJ2hH4gG6fF8dD0sS2aA4pP6oO8iI0uU2yY4tT6rR8eE0wW2qQ4mM6nN8bB0vV2cC4xX6zZ8lL0kK2jJ4hH6gG8fF0dD2sS4aA6pP8oO0iI2uU4yY6tT8rR0eE2wW4qQ6mM8nN0bB2vV4cC6xX8zZ0lL2kK4jJ6hH8gG0fF2dD4sS6aA8pP0oO2iI4uU6yY8tT0rR2eE4wW6qQ8mM0nN2bB4vV6cC8xX0zZ2lL4kK6jJ8hH0gG2fF4dD6sS8aA0pP2oO4iI6uU8yY0tT2rR4eE6wW8qQ0mM2nN4bB6vV8cC0xX2zZ4lL6kK8jJ0hH2gG4fF6dD8sS0aA2pP4oO6iI8uU0yY2tT4rR6eE8wW0qQ2mM4nN6bB8vV0cC2xX
+            TermUrl: https://test-api.domain.com/v1/invoice/finish3ds/4a9f8b2c6d1e0f7a3b5c8d2e9f0a1b3c
           type: object
           nullable: true
           description: |
@@ -1739,71 +1714,6 @@ components:
           nullable: true
           example: https://test-checkout.domain.com/form/
           description: URL subject to which the contents of the `data` field should be sent by the `method`. If `null` is received, then you do not need to send it.
-        payment_token:
-          type: object
-          nullable: true
-          description: Payment token data
-          properties:
-            token:
-              type: string
-              format: uuid
-              description: Payment token
-              example: 980fba62-94d9-4489-bf4c-75b43eecf134
-            expires_at:
-              title: <ISO 8601>
-              nullable: true
-              type: string
-              format: date-time
-              example: '2026-10-21T16:48:22'
-              description: Date and time of payment token expiration
-            status:
-              type: string
-              enum:
-                - CREATED
-                - WAITING
-                - SUCCESS
-                - FAILED
-              example: SUCCESS
-              description: |-
-                Token issue status on invoice create:
-                  * `CREATED` - request for token issue created
-                  * `WAITING` - request is waiting for user's actions
-                  * `SUCCESS` - token successfully created
-                  * `FAILED` - token creation failed
-            account:
-              type: string
-              example: 412103XXXXXX7701
-              description: Masked number of the account (card or wallet) for which the token was issued
-            card_info:
-              type: object
-              nullable: true
-              description: Information on the bank card
-              properties:
-                issuing_country:
-                  type: string
-                  maxLength: 3
-                  minLength: 3
-                  description: Issuer's country code. Alphabetical country identifier under [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3).
-                  example: GBR
-                issuing_bank:
-                  type: string
-                  example: Example Bank
-                  description: Issuing bank
-                payment_system:
-                  type: string
-                  example: VISA
-                  description: Payment system type
-                funding_source:
-                  type: string
-                  example: DEBIT
-                  description: Card type
-                payment_system_product:
-                  type: string
-                  example: GOLD
-                  description: Card category
-          required:
-            - token
-            - status
       required:
         - data
         - id
