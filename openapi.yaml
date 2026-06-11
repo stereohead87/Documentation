@@ -52,28 +52,28 @@ tags:
     description: |
       ### Invoicing procedure
 
-      `Single-step payment` is a type of payment in which a single request [invoice/create](#operation/post-invoice-create) is immediately blocking and withdrawing funds.
+      `Single-step payment` is a type of payment in which a single request [invoice/create](/api-reference/invoice-create/invoice-issue) is immediately blocking and withdrawing funds.
 
       `Two-step payment` is a type of payment when funds are withdrawn in two steps.
       *You can check which payment ways support two-stage payment with the manager.*
-      The first request [invoice/hold](#operation/post-invoice-hold) is used to hold (block) funds on the client's account.
-      The second request [invoice/charge](#operation/post-invoice-charge) initiates the withdrawal.
-      If you want to cancel a previously held payment, then cancel it using the [invoice/unhold](#operation/post-invoice-unhold) method. The money will be returned to the payer.
+      The first request [invoice/hold](/api-reference/invoice-create/funds-hold-two-stage-payments) is used to hold (block) funds on the client's account.
+      The second request [invoice/charge](/api-reference/invoice-create/confirmation-of-funds-withdrawal-charge) initiates the withdrawal.
+      If you want to cancel a previously held payment, then cancel it using the [invoice/unhold](/api-reference/invoice-create/cancellation-of-funds-holding) method. The money will be returned to the payer.
 
       ### Single-step payment
       ![Invoice Flow Diagram](assets/common/images/en/invoice-flow.v1.png)
 
       1. User generates an order on the shop's website;
 
-      2. Shop sends a request to pre-calculate the invoice and get additional parameters [invoice/try](#operation/post-invoice-try);
+      2. Shop sends a request to pre-calculate the invoice and get additional parameters [invoice/try](/api-reference/invoice-create/invoice-preliminary-calculation);
 
-      3. When receiving `result: true`, verify the availability of additional information in `add_ons_config`, if present, it is necessary to pass additional parameters in the invoice request. When you get `result: false`, you need to analyse the error code in the `error_code` field (see [description of error codes](#tag/errors-list)). If the `error code` is not fatal, then you need to wait for the [server notification](#tag/callbacks). If the `error code` is fatal, then communication with our API is over.
+      3. When receiving `result: true`, verify the availability of additional information in `add_ons_config`, if present, it is necessary to pass additional parameters in the invoice request. When you get `result: false`, you need to analyse the error code in the `error_code` field (see [description of error codes](/errors-list)). If the `error code` is not fatal, then you need to wait for the [server notification](/callbacks). If the `error code` is fatal, then communication with our API is over.
 
-      4. After verifying [invoice/try](#operation/post-invoice-try), the shop sends an invoice request [invoice/create](#operation/post-invoice-create), specifying the required parameters and additional information from `add_ons_config` (if it is required for the specified payment direction);
+      4. After verifying [invoice/try](/api-reference/invoice-create/invoice-preliminary-calculation), the shop sends an invoice request [invoice/create](/api-reference/invoice-create/invoice-issue), specifying the required parameters and additional information from `add_ons_config` (if it is required for the specified payment direction);
 
-      5. The response returns information with the invoice and data to be sent by the specified method to the specified URL for making or charging the payment. It is necessary to send the user to make a payment. In case `result: false`, you need to analyse the error code in the `error_code` field (see [description of error codes](#tag/errors-list)). If the `error code` is not fatal, then you need to wait for the [server notification](#tag/callbacks). If the `error code` is fatal, then communication with our API is over, it is necessary to inform the user that the payment was not created.
+      5. The response returns information with the invoice and data to be sent by the specified method to the specified URL for making or charging the payment. It is necessary to send the user to make a payment. In case `result: false`, you need to analyse the error code in the `error_code` field (see [description of error codes](/errors-list)). If the `error code` is not fatal, then you need to wait for the [server notification](/callbacks). If the `error code` is fatal, then communication with our API is over, it is necessary to inform the user that the payment was not created.
 
-      6. After the payment is made or charged by the user, the M4 system [sends a notification](#tag/callbacks) to the URL of interaction with the shop, containing payment information, for more information, see [here](#operation/post-invoice-create);
+      6. After the payment is made or charged by the user, the M4 system [sends a notification](/callbacks) to the URL of interaction with the shop, containing payment information, for more information, see [here](/api-reference/invoice-create/invoice-issue);
 
       7. After receiving the charge, the payment is considered successfully completed.
 
@@ -85,21 +85,21 @@ tags:
 
       1. User generates an order on the shop's website;
 
-      2. Shop sends a request for a preliminary calculation of the issued invoice and receiving additional parameters [invoice/try](#operation/post-invoice-try);
+      2. Shop sends a request for a preliminary calculation of the issued invoice and receiving additional parameters [invoice/try](/api-reference/invoice-create/invoice-preliminary-calculation);
 
-      3. When receiving `result: true`, the availability of additional information in `add_ons_config` is checked, if present, additional parameters should be passed in the invoice request. When you get `result: false`, you need to analyse the error code in the `error_code` field (see [description of error codes](#tag/errors-list)). If the `error code` is not fatal, then you need to wait for the [server notification](#tag/callbacks). If the `error code` is fatal, then communication with our API is over.
+      3. When receiving `result: true`, the availability of additional information in `add_ons_config` is checked, if present, additional parameters should be passed in the invoice request. When you get `result: false`, you need to analyse the error code in the `error_code` field (see [description of error codes](/errors-list)). If the `error code` is not fatal, then you need to wait for the [server notification](/callbacks). If the `error code` is fatal, then communication with our API is over.
 
-      4. After verification [invoice/try](#operation/post-invoice-try) shop sends invoice request [invoice/hold](#operation/post-invoice-hold), specifying the required parameters and additional information from `add_ons_config` (if it is required for the specified payment way);
+      4. After verification [invoice/try](/api-reference/invoice-create/invoice-preliminary-calculation) shop sends invoice request [invoice/hold](/api-reference/invoice-create/funds-hold-two-stage-payments), specifying the required parameters and additional information from `add_ons_config` (if it is required for the specified payment way);
 
-      5. The response returns information with the invoice issued and data to be sent by the specified method to the specified URL for making or charging the payment. It is necessary to refer the user to make the payment. In case `result: false`, you need to analyse the error code in the `error_code` field (see [description of error codes](#tag/errors-list)). If the `error code` is not fatal, then you need to wait for the [server notification](#tag/callbacks). If the `error code` is fatal, then communication with our API is over, it is necessary to inform the user that the payment was not created.
+      5. The response returns information with the invoice issued and data to be sent by the specified method to the specified URL for making or charging the payment. It is necessary to refer the user to make the payment. In case `result: false`, you need to analyse the error code in the `error_code` field (see [description of error codes](/errors-list)). If the `error code` is not fatal, then you need to wait for the [server notification](/callbacks). If the `error code` is fatal, then communication with our API is over, it is necessary to inform the user that the payment was not created.
 
-      6. After payment is completed by the user, the M4 system [sends a notification](#tag/callbacks) to the shop's interaction URL, with information about the blocking of funds;
+      6. After payment is completed by the user, the M4 system [sends a notification](/callbacks) to the shop's interaction URL, with information about the blocking of funds;
 
-      7. After the funds are blocked on the client's account, you can charge the payment [invoice/charge](#operation/post-invoice-charge) or cancel the holding [invoice/unhold](#operation/post-invoice-unhold);
+      7. After the funds are blocked on the client's account, you can charge the payment [invoice/charge](/api-reference/invoice-create/confirmation-of-funds-withdrawal-charge) or cancel the holding [invoice/unhold](/api-reference/invoice-create/cancellation-of-funds-holding);
 
       8. The response returns information with the result of charge (sometimes the payment status may not be final, then you should wait for the notification);
 
-      9. M4 system [will send a notification](#tag/callbacks) to the URL of the interaction of the shop with the final status regarding the confirmation of funds withdrawal.
+      9. M4 system [will send a notification](/callbacks) to the URL of the interaction of the shop with the final status regarding the confirmation of funds withdrawal.
 
       ### Ensuring payments idempotency
 
@@ -114,18 +114,18 @@ tags:
       * In case of a full refund, you refund the successfully paid payment in full.
       * In case of a partial refund - a part of the payment amount, for example, if you want to refund a part of the purchase.
 
-      After confirmation of the refund by the payment system, the M4 system [will send a notification](#tag/callbacks) with details
+      After confirmation of the refund by the payment system, the M4 system [will send a notification](/callbacks) with details
       of refund to the URL transferred in the request when creating the refund. A detailed description of the notification format
-      is described [here](#section/Refund-notification-example).
+      is described [here](/callbacks#refund-notification-example).
 
       Please note that if you receive `result: false` in response in case of a synchronous response to a request, this means that
-      you need to analyse the error code in the `error_code` field (see [description of error codes](#tag/errors-list)). If the `error code` is not fatal, then you need to wait for the [server notification](#tag/callbacks). If the `error code` is fatal, then the refund transaction will not be created (it will either not be created at all if basic checks
+      you need to analyse the error code in the `error_code` field (see [description of error codes](/errors-list)). If the `error code` is not fatal, then you need to wait for the [server notification](/callbacks). If the `error code` is fatal, then the refund transaction will not be created (it will either not be created at all if basic checks
       have not passed, or it will be created with the immediate status `FAILED`). In this case, communication with our API is over.
 
       If in case of a synchronous response to a request in the response you received `result: true`, this means that you need to check the status
       of the refund transaction in the response body:
       it can be final (`SUCCESS`, `FAILED`), and then communication with the API is over, or it can be `WAITING` — then
-      you have to wait for some time for a [server notification](#tag/callbacks) from us with the final status.
+      you have to wait for some time for a [server notification](/callbacks) from us with the final status.
 
       <div class="success">
       Refunds are made in the currency of the paid invoice, under which the refund transaction is carried out.
@@ -303,13 +303,13 @@ tags:
 
       You can withdraw funds regularly from the payment instrument of the buyer without repeated entry of details and without participation of the payer to initiate the next payment. With such way of funds withdrawal the user should only confirm the first payment or linking of the payment instrument, all subsequent payments will be made without his/her participation.
 
-      To create the first payment in the chain and to generate the payment token, pass `issue_payment_token: true` in [invoice/create](#operation/post-invoice-create) or [invoice/hold](#operation/post-invoice-hold).
+      To create the first payment in the chain and to generate the payment token, pass `issue_payment_token: true` in [invoice/create](/api-reference/invoice-create/invoice-issue) or [invoice/hold](/api-reference/invoice-create/funds-hold-two-stage-payments).
 
-      You will then receive a [notification](#tag/callbacks) with `payment_token` inside `ps_data`. Save that token for subsequent charges.
+      You will then receive a [notification](/callbacks) with `payment_token` inside `ps_data`. Save that token for subsequent charges.
 
       <div class="warning">Parameter <strong>payment_token</strong> is sent only after a successful transaction.</div>
 
-      For each following payment, submit `payment_token: "<payment token>"` in [invoice/create](#operation/post-invoice-create). The response may return `method: null` and `url: null` when no redirect to the payment page is required; the final result arrives via [notification](#tag/callbacks).
+      For each following payment, submit `payment_token: "<payment token>"` in [invoice/create](/api-reference/invoice-create/invoice-issue). The response may return `method: null` and `url: null` when no redirect to the payment page is required; the final result arrives via [notification](/callbacks).
   - name: invoice-statuses
     x-displayName: Invoice statuses
     description: |
@@ -331,17 +331,17 @@ tags:
 
       ![Withdraw Flow Diagram](assets/common/images/en/withdraw-flow.v1.png)
 
-      1. Shop executes a request for a preliminary calculation and receiving additional parameters for further creation of the payout using the method [withdraw/try](#operation/post-withdraw-try);
+      1. Shop executes a request for a preliminary calculation and receiving additional parameters for further creation of the payout using the method [withdraw/try](/api-reference/withdraw-create/payout-preliminary-calculation);
 
-      2. If `result: true`, the shop sends request for a preliminary check of the existence and possibility of adding funds to the account [check_account](#operation/post-withdraw-check-account), to the specified payment way (if necessary, specify additional parameters obtained from the previous request from the `account_info_config` field);
+      2. If `result: true`, the shop sends request for a preliminary check of the existence and possibility of adding funds to the account [check_account](/api-reference/withdraw-create/checking-the-account-for-the-possibility-of-replenishment), to the specified payment way (if necessary, specify additional parameters obtained from the previous request from the `account_info_config` field);
 
-      3. If `result: true`, verify availability of additional information in the `account_info` field, if available, it is necessary to pass additional parameters in the payout creation request. When getting `result: false`, analyse the error code in the `error_code` field (see [description of error codes](#tag/errors-list)). If the `error code` is not fatal, then you need to start requesting the status of the transaction after a certain time (for 2 hours at 30-second intervals). If the `error code` is fatal the communication with our API is over.
+      3. If `result: true`, verify availability of additional information in the `account_info` field, if available, it is necessary to pass additional parameters in the payout creation request. When getting `result: false`, analyse the error code in the `error_code` field (see [description of error codes](/errors-list)). If the `error code` is not fatal, then you need to start requesting the status of the transaction after a certain time (for 2 hours at 30-second intervals). If the `error code` is fatal the communication with our API is over.
 
-      4. Shop submits a request for payout creation [withdraw/create](#operation/post-withdraw-create), specifying the required parameters and additional information from `account_info` (if it is required for the specified payment way);
+      4. Shop submits a request for payout creation [withdraw/create](/api-reference/withdraw-create/payout-creation), specifying the required parameters and additional information from `account_info` (if it is required for the specified payment way);
 
       5. The response returns information with the generated payout request and indicating the amounts and the payout ID. In this case, the part of the balance of the shop from which the payout is made is frozen until the final payout status.
 
-      6. After payout creation, it is necessary to make a request to get the status of the created payout [withdraw/status](/#operation/post-withdraw-status) or [withdraw/shop_payment_status](/#operation/post-withdraw-shop-payment-status), before receiving the final status.
+      6. After payout creation, it is necessary to make a request to get the status of the created payout [withdraw/status](/api-reference/withdraw-create/payout-status-request-by-id-of-the-payout-created-in-m4-system) or [withdraw/shop_payment_status](/api-reference/withdraw-create/payout-status-request-by-the-shop-payout-number), before receiving the final status.
 
       <div class="attention">
       Status requests are recommended to be made at 30-second intervals.
@@ -351,11 +351,11 @@ tags:
 
       ### Guidelines for creation and verification of payout requests
 
-      If you received `result: true` after creating the payout, you should immediately check the `data.status` field, perhaps there will already be a final [status](#tag/withdraw-statuses), for example `6 (Rejected)` and in this case, you do not need to make a request for the payout status.
+      If you received `result: true` after creating the payout, you should immediately check the `data.status` field, perhaps there will already be a final [status](/withdraw-statuses), for example `6 (Rejected)` and in this case, you do not need to make a request for the payout status.
 
-      If you receive the `Read timeout` error at the payout creation request, then you need to make a status request by the shop's payout number [withdraw/shop_payment_status](#operation/post-withdraw-shop-payment-status) and if the response returns an error stating the absence of such a payout, you can repeat the request to create a payout. If the payout status is returned in the response, then it means that it was created and you need to focus on this status.
+      If you receive the `Read timeout` error at the payout creation request, then you need to make a status request by the shop's payout number [withdraw/shop_payment_status](/api-reference/withdraw-create/payout-status-request-by-the-shop-payout-number) and if the response returns an error stating the absence of such a payout, you can repeat the request to create a payout. If the payout status is returned in the response, then it means that it was created and you need to focus on this status.
 
-      Reason for payout rejection ([getting status 6](#tag/withdraw-statuses)) can be clarified through the support service <a href="mailto:support@m4psp.com">support@m4psp.com</a>.
+      Reason for payout rejection ([getting status 6](/withdraw-statuses)) can be clarified through the support service <a href="mailto:support@m4psp.com">support@m4psp.com</a>.
 
       ### Securing payouts idempotency
 
@@ -392,12 +392,12 @@ tags:
 
       If you receive `result: false` in the response, this means that an error occurred, and the transaction was either not created (
       for example, in case of request body validation error), or ended with an error (for example, the payment system returned an error when
-      trying to perform a transaction). If the `error code` is not fatal, then you need to wait for the [server notification](#tag/callbacks) (applies to [invoice](#tag/invoice-create) or [refund](#tag/invoice-refund) transactions) or after a certain time start requesting the status of the transaction (applies to [payout](#tag/withdraw-create) transactions) (for 2 hours at 30-second intervals). If the `error code` is fatal the communication with our API is over.
+      trying to perform a transaction). If the `error code` is not fatal, then you need to wait for the [server notification](/callbacks) (applies to [invoice](/invoice-create) or [refund](/invoice-refund) transactions) or after a certain time start requesting the status of the transaction (applies to [payout](/withdraw-create) transactions) (for 2 hours at 30-second intervals). If the `error code` is fatal the communication with our API is over.
 
       If you receive `result: true` in response, it means that the transaction was created successfully. If the transaction status in the synchronous
       response is not final (or is absent for some types of transactions), then you need
-      to wait for the [server notification](#tag/callbacks) or after a certain time start requesting the status
-      of the transaction (applies only to [payout](#tag/withdraw-create) transactions). After receiving the final status of the transaction,
+      to wait for the [server notification](/callbacks) or after a certain time start requesting the status
+      of the transaction (applies only to [payout](/withdraw-create) transactions). After receiving the final status of the transaction,
       the communication with our API is over.
 
       | Error code | Description                                                                                                                                                                         |  Fatal  |
@@ -524,6 +524,14 @@ paths:
     post:
       summary: Invoice issue
       operationId: post-invoice-create
+      parameters:
+        - name: sign
+          in: header
+          required: true
+          schema:
+            type: string
+            example: sign-your-request
+          description: Request signature
       responses:
         '200':
           description: ''
@@ -556,7 +564,7 @@ paths:
         * `phone` – phone number linked to the wallet;
         * `account` – card number;
 
-        The list of these parameters depends on the payway (`payway`). The required additional parameters for the payway can be found in the request "Getting payment methods for input" [shop_input_config/shop](#operation/post-shop-input-config-shop) in the `add_ons_config` response field.
+        The list of these parameters depends on the payway (`payway`). The required additional parameters for the payway can be found in the request "Getting payment methods for input" [shop_input_config/shop](/api-reference/invoice-create/getting-payment-methods-for-input) in the `add_ons_config` response field.
 
         ### Redirecting to invoice payment forms
 
@@ -607,7 +615,7 @@ paths:
 
         For 3ds 2.0 payments with card data to be successful, the payer's browser information must be collected.
 
-        You can collect the data yourself or let our service perform this for you. If you collect the data on your end, please ensure that all the necessary values are included to the payment initiation request [/invoice/create](#operation/post-invoice-create).
+        You can collect the data yourself or let our service perform this for you. If you collect the data on your end, please ensure that all the necessary values are included to the payment initiation request [/invoice/create](/api-reference/invoice-create/invoice-issue).
 
         As an example, the provided JavaScript code could be employed to obtain the Payer Browser information. Please be aware that the `client_info` fields provided below do not include `browser_accept_header`.
 
@@ -625,7 +633,7 @@ paths:
         }
         ```
 
-        If the payer's browser data is not provided in the [/invoice/create](#operation/post-invoice-create) request, it will be necessary to redirect the payer to our service as an intermediate step using a `data` object, so that our service can collect the necessary browser data. See [Redirecting to invoice payment forms](#redirecting-to-invoice-payment-forms) for the details on redirect.
+        If the payer's browser data is not provided in the [/invoice/create](/api-reference/invoice-create/invoice-issue) request, it will be necessary to redirect the payer to our service as an intermediate step using a `data` object, so that our service can collect the necessary browser data. See [Redirecting to invoice payment forms](#redirecting-to-invoice-payment-forms) for the details on redirect.
 
         <div class="success">
         <p>Fields involved in request signature generation:</p>
@@ -707,12 +715,12 @@ paths:
 
         *First step of two-step payment.*
 
-        First step is performed according to the scheme [invoice/create](#operation/post-invoice-create).
+        First step is performed according to the scheme [invoice/create](/api-reference/invoice-create/invoice-issue).
 
-        After successful creation and payment of the invoice, [status](#tag/invoice-statuses) will be equal to **8 (Invoice funds are on hold in the payment system)**.
+        After successful creation and payment of the invoice, [status](/invoice-statuses) will be equal to **8 (Invoice funds are on hold in the payment system)**.
 
-        To complete the funds receipt operation, execute [invoice/charge](#operation/post-invoice-charge) or to cancel,
-        execute [invoice/unhold](#operation/post-invoice-unhold).
+        To complete the funds receipt operation, execute [invoice/charge](/api-reference/invoice-create/confirmation-of-funds-withdrawal-charge) or to cancel,
+        execute [invoice/unhold](/api-reference/invoice-create/cancellation-of-funds-holding).
 
         <div class="warning">
         When funds are held, merchants are required to confirm or cancel the payment within 5 days.
@@ -762,7 +770,7 @@ paths:
       description: |
         ### Withdrawal confirmation.
 
-        Performed **only** after [invoice/hold](#operation/post-invoice-hold) method (second step of two-stage payment)
+        Performed **only** after [invoice/hold](/api-reference/invoice-create/funds-hold-two-stage-payments) method (second step of two-stage payment)
 
         <div class="success">
         <p>Fields involved in request signature generation:</p>
@@ -803,7 +811,7 @@ paths:
       description: |
         ### Cancellation of funds hold.
 
-        Executed **only** after the method [invoice/hold](#operation/post-invoice-hold)
+        Executed **only** after the method [invoice/hold](/api-reference/invoice-create/funds-hold-two-stage-payments)
 
         <div class="success">
         <p>Fields involved in request signature generation:</p>
@@ -847,7 +855,7 @@ paths:
       operationId: post-invoice-create-refund
       description: |-
         Method for creating a refund to the payer from the partner's balance,
-        with a successfully paid invoice ([invoice status](#tag/invoice-statuses) has a value of 4).
+        with a successfully paid invoice ([invoice status](/invoice-statuses) has a value of 4).
 
         <div class="success">
         <p>Fields involved in request signature generation:</p>
@@ -1049,7 +1057,7 @@ paths:
         * `description` – payout description,
         * `account_details` – additional information on the account for payout.
 
-        The list of these parameters depends on the payway (`payway`). The required additional parameters for the payway can be found in the request "Receive possible payout methods for payments" [shop_output_config/shop](#operation/post-shop-output-config-shop) in the `account_info_config` response field.
+        The list of these parameters depends on the payway (`payway`). The required additional parameters for the payway can be found in the request "Receive possible payout methods for payments" [shop_output_config/shop](/api-reference/withdraw-create/getting-possible-payout-methods) in the `account_info_config` response field.
 
         <div class="success">
         <p>Fields involved in request signature generation:</p>
@@ -1238,7 +1246,7 @@ components:
 
         Signature line is generated according to the following algorithm: all request parameters involved in signature generation are ordered in the alphabetical order of keys, the values are concatenated with a colon (":") and the account secret key is added at the end (without the: `sign`), a sha256 hash is generated from the resulting line and its hex representation is passed in the sign request parameter.
 
-        ### Example of signature generation for a method [invoice/create](#operation/post-invoice-create):
+        ### Example of signature generation for a method [invoice/create](/api-reference/invoice-create/invoice-issue):
 
         1. Determining the list of parameters. It looks as follows for the method in consideration:
 
@@ -1339,7 +1347,7 @@ components:
             Invoice currency depends on the specified payment way.
 
             There are two ways to get a list of all payment directions available to the shop:
-            * Execute API request "Receiving payment methods for input" [shop_input_config/shop](#operation/post-shop-input-config-shop).
+            * Execute API request "Receiving payment methods for input" [shop_input_config/shop](/api-reference/invoice-create/getting-payment-methods-for-input).
             * Request register from the support service.
     Description.v1:
       type: object
@@ -1384,7 +1392,7 @@ components:
           description: A textual description of the error, in case of success - simply `Ok`
         error_code:
           type: number
-          description: If this value is greater than `0`, then the request ended with an error. [Description of error codes](#tag/errors-list)
+          description: If this value is greater than `0`, then the request ended with an error. [Description of error codes](/errors-list)
       required:
         - data
         - error_code
@@ -1593,7 +1601,7 @@ components:
             issue_payment_token:
               type: boolean
               example: false
-              description: This parameter is used to generate a payment token. More details [invoice/recurrent](#tag/invoice-recurrent)
+              description: This parameter is used to generate a payment token. More details [invoice/recurrent](/invoice-recurrent)
             client_info:
               type: object
               description: |
@@ -1745,7 +1753,7 @@ components:
       type: number
       format: integer
       example: 0
-      description: 'M4 API error code. `0` in cases there is no any error. Other codes can be found here: [Description of error codes](#tag/errors-list)'
+      description: 'M4 API error code. `0` in cases there is no any error. Other codes can be found here: [Description of error codes](/errors-list)'
       required:
         - error_code
     BaseInvoiceStatus.v1:
@@ -1832,7 +1840,7 @@ components:
         status:
           type: integer
           example: 2
-          description: A more detailed description of the statuses can be found [below](#tag/invoice-statuses)
+          description: A more detailed description of the statuses can be found [below](/invoice-statuses)
           enum:
             - 1
             - 2
@@ -2365,7 +2373,7 @@ components:
             Currency of receipt depends on the specified payment way.
 
             There are two ways to get a list of all payment ways available to the shop:
-            * Execute the API request "Receiving payment methods for payouts" [shop_output_config/shop](#operation/post-shop-output-config-shop).
+            * Execute the API request "Receiving payment methods for payouts" [shop_output_config/shop](/api-reference/withdraw-create/getting-possible-payout-methods).
             * Request a register from the support service.
     Withdraw.v1:
       title: Payment parameters
@@ -2381,7 +2389,7 @@ components:
               $ref: '#/components/schemas/Amount.v1'
             account_details:
               type: object
-              description: Detailed account information. If additional parameters were transferred in the [shop_output_config/shop](#operation/post-shop-output-config-shop) response in the `account_info_config` field, they must be transferred in the `account_details` field.
+              description: Detailed account information. If additional parameters were transferred in the [shop_output_config/shop](/api-reference/withdraw-create/getting-possible-payout-methods) response in the `account_info_config` field, they must be transferred in the `account_details` field.
               additionalProperties: true
           required:
             - shop_currency
@@ -2540,7 +2548,7 @@ components:
       title: Payment status
       type: integer
       example: 2
-      description: A more detailed description of statuses can be found [below](#tag/withdraw-statuses)
+      description: A more detailed description of statuses can be found [below](/withdraw-statuses)
       enum:
         - 1
         - 3
