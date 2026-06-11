@@ -579,11 +579,11 @@ paths:
         For the data specified in the example response below, the following HTML form will be obtained:
 
         ```html
-        <form method="POST" action="https://example.checkout.com/form/">
-          <input name="transaction_id" value="1231" />
+        <form method="POST" action="https://test-checkout.domain.com/form/">
+          <input name="transaction_id" value="a1b2c3" />
           <input name="payment_type" value="card" />
-          <input name="fail_url" value="https://example.com/payment/?status=fail" />
-          <input name="success_url" value="https://example.com/payment/?status=success" />
+          <input name="fail_url" value="https://metaexamplesite.com/payment/?status=fail" />
+          <input name="success_url" value="https://metaexamplesite.com/payment/?status=success" />
           <input type="submit" />
         </form>
         ```
@@ -597,7 +597,7 @@ paths:
         redirect_url = '{url}?{parameters}'.format(url=data['url'], parameters=urllib.parse.urlencode(data['data']))
         ```
 
-        An example of the formed URL: `https://example.checkout.com/form/?transaction_id=1231&payment_type=card&fail_url=https%3A%2F%2Fexample.com%2Fpayment%2F%3Fstatus%3Dfail&success_url=https%3A%2F%2Fexample.com%2Fpayment%2F%3Fstatus%3Dsuccess`
+        An example of the formed URL: `https://test-checkout.domain.com/form/?transaction_id=a1b2c3&payment_type=card&fail_url=https%3A%2F%2Fmetaexamplesite.com%2Fpayment%2F%3Fstatus%3Dfail&success_url=https%3A%2F%2Fmetaexamplesite.com%2Fpayment%2F%3Fstatus%3Dsuccess`
 
         <div class="attention">
         Please note that the parameters <code>failed_url</code>, <code>success_url</code>, <code>callback_url</code>, <code>callback_rejected_url</code> specified in the shop settings have priority over those specified in request. If you want to use unique url for each request, you need to inform the manager about it.
@@ -1737,7 +1737,7 @@ components:
           type: string
           format: uri
           nullable: true
-          example: https://example.checkout.com/form/
+          example: https://test-checkout.domain.com/form/
           description: URL subject to which the contents of the `data` field should be sent by the `method`. If `null` is received, then you do not need to send it.
         payment_token:
           type: object
@@ -2694,7 +2694,7 @@ components:
               type: string
               description: URL to which it is necessary to send the content of `data` field using `method`
               format: uri
-              example: https://example.checkout.com/form/
+              example: https://test-checkout.domain.com/form/
           required:
             - data
             - method
