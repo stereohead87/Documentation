@@ -4,9 +4,56 @@ title: "Payout creation"
 
 ### Process of shop payouts generation is as follows:
 
-<Frame>
-  ![Withdraw Flow V1](/images/withdraw-flow.v1.png)
-</Frame>
+```mermaid placement="bottom-left"
+sequenceDiagram
+    autonumber
+
+    participant Merchant
+    participant Gateway as Payment Gateway API
+
+    rect rgb(245,245,245)
+        Note over Merchant,Gateway: Payout validation
+
+        Merchant->>Gateway: POST /withdraw/try
+        Gateway-->>Merchant: result=true
+    end
+
+    rect rgb(245,245,245)
+        Note over Merchant,Gateway: Account validation
+
+        Merchant->>Gateway: POST /check_account
+        Gateway-->>Merchant: accountAvailable=true
+    end
+
+    rect rgb(245,245,245)
+        Note over Merchant,Gateway: Create payout
+
+        Merchant->>Gateway: POST /withdraw/create
+        activate Gateway
+
+        Gateway-->>Merchant: payoutId
+
+        deactivate Gateway
+    end
+
+    loop Until final status received
+
+        alt Search by payoutId
+
+            Merchant->>Gateway: GET /withdraw/status
+            Gateway-->>Merchant: status
+
+        else Search by merchant payment number
+
+            Merchant->>Gateway: GET /withdraw/shop_payment_status
+            Gateway-->>Merchant: status
+
+        end
+
+    end
+
+    Note over Merchant,Gateway: Final status = SUCCESS / FAILED
+```
 
 1. Shop executes a request for a preliminary calculation and receiving additional parameters for further creation of the payout using the method [withdraw/try](/api-reference/withdraw-create/payout-preliminary-calculation);
 2. If `result: true`, the shop sends request for a preliminary check of the existence and possibility of adding funds to the account [check\_account](/api-reference/withdraw-create/checking-the-account-for-the-possibility-of-replenishment), to the specified payment way (if necessary, specify additional parameters obtained from the previous request from the `account_info_config` field);
