@@ -14,50 +14,50 @@ title: "Invoice issue (payment creation)"
 sequenceDiagram
     autonumber
 
-    actor Customer
-    participant Merchant
-    participant Gateway as Payment Gateway API
+    actor U as User
+    participant S as Shop
+    participant PG as Payment Gateway API
 
-    Customer->>Merchant: Place order
+    U->>S: Place order
 
     rect rgb(245,245,245)
-        Note over Merchant,Gateway: Invoice validation
+        Note over S,PG: Invoice validation
 
-        Merchant->>Gateway: POST /invoice/try
-        activate Gateway
+        S->>PG: POST /invoice/try
+        activate PG
 
-        Gateway-->>Merchant: result=true
+        PG-->>S: result=true
 
-        deactivate Gateway
+        deactivate PG
     end
 
     rect rgb(245,245,245)
-        Note over Merchant,Gateway: Invoice creation
+        Note over S,PG: Invoice creation
 
-        Merchant->>Gateway: POST /invoice/create
-        activate Gateway
+        S->>PG: POST /invoice/create
+        activate PG
 
-        Gateway-->>Merchant: invoiceId, paymentUrl
+        PG-->>S: invoiceId, paymentUrl
 
-        deactivate Gateway
+        deactivate PG
     end
 
-    Merchant-->>Customer: Redirect to paymentUrl
+    S-->>U: Redirect to paymentUrl
 
-    Note over Customer,Gateway: Customer completes payment
+    Note over U,PG: User completes payment
 
     critical Payment completed
 
-        Gateway-)Merchant: Callback: InvoicePaid
-        activate Merchant
+        PG-)S: Callback: InvoicePaid
+        activate S
 
-        Merchant-->>Gateway: HTTP 200 OK
+        S-->>PG: HTTP 200 OK
 
-        deactivate Merchant
+        deactivate S
 
     end
 
-    Merchant-->>Customer: Deliver goods/services
+    S-->>U: Deliver goods/services
 ```
 
 1. User generates an order on the shop's website;
@@ -74,70 +74,70 @@ sequenceDiagram
 sequenceDiagram
     autonumber
 
-    actor Customer
-    participant Merchant
-    participant Gateway as Payment Gateway API
+    actor U as User
+    participant S as Shop
+    participant PG as Payment Gateway API
 
-    Customer->>Merchant: Place order
+    U->>S: Place order
 
     rect rgb(245,245,245)
-        Note over Merchant,Gateway: Payment validation
+        Note over S,PG: Payment validation
 
-        Merchant->>Gateway: POST /invoice/try
-        Gateway-->>Merchant: result=true
+        S->>PG: POST /invoice/try
+        PG-->>S: result=true
     end
 
     rect rgb(245,245,245)
-        Note over Merchant,Gateway: Funds authorization
+        Note over S,PG: Funds authorization
 
-        Merchant->>Gateway: POST /invoice/hold
-        activate Gateway
+        S->>PG: POST /invoice/hold
+        activate PG
 
-        Gateway-->>Merchant: holdId, paymentUrl
+        PG-->>S: holdId, paymentUrl
 
-        deactivate Gateway
+        deactivate PG
     end
 
-    Merchant-->>Customer: Redirect to paymentUrl
+    S-->>U: Redirect to paymentUrl
 
-    Note over Customer,Gateway: Customer confirms payment
+    Note over U,PG: User confirms payment
 
     critical Funds successfully blocked
 
-        Gateway-)Merchant: Callback: FundsHeld
-        activate Merchant
+        PG-)S: Callback: FundsHeld
+        activate S
 
-        Merchant-->>Gateway: HTTP 200 OK
+        S-->>PG: HTTP 200 OK
 
-        deactivate Merchant
+        deactivate S
 
     end
 
-    Note over Merchant: Order processing
+    Note over S: Order processing
 
     rect rgb(245,245,245)
-        Note over Merchant,Gateway: Capture authorized funds
+        Note over S,PG: Capture authorized funds
 
-        Merchant->>Gateway: POST /invoice/charge
-        activate Gateway
+        S->>PG: POST /invoice/charge
+        activate PG
 
-        Gateway-->>Merchant: charge accepted
+        PG-->>S: charge accepted
 
-        deactivate Gateway
+        deactivate PG
     end
 
     critical Capture completed
 
-        Gateway-)Merchant: Callback: FundsCaptured
-        activate Merchant
+        PG-)S: Callback: FundsCaptured
+        activate S
 
-        Merchant-->>Gateway: HTTP 200 OK
+        S-->>PG: HTTP 200 OK
 
-        deactivate Merchant
+        deactivate S
 
     end
 
-    Merchant-->>Customer: Order completed
+    S-->>U: Order completed
 ```
 
 1. User generates an order on the shop's website;

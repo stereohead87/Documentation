@@ -8,51 +8,51 @@ title: "Payout creation"
 sequenceDiagram
     autonumber
 
-    participant Merchant
-    participant Gateway as Payment Gateway API
+    participant S as Shop
+    participant PG as Payment Gateway API
 
     rect rgb(245,245,245)
-        Note over Merchant,Gateway: Payout validation
+        Note over S,PG: Payout validation
 
-        Merchant->>Gateway: POST /withdraw/try
-        Gateway-->>Merchant: result=true
+        S->>PG: POST /withdraw/try
+        PG-->>S: result=true
     end
 
     rect rgb(245,245,245)
-        Note over Merchant,Gateway: Account validation
+        Note over S,PG: Account validation
 
-        Merchant->>Gateway: POST /check_account
-        Gateway-->>Merchant: accountAvailable=true
+        S->>PG: POST /check_account
+        PG-->>S: accountAvailable=true
     end
 
     rect rgb(245,245,245)
-        Note over Merchant,Gateway: Create payout
+        Note over S,PG: Create payout
 
-        Merchant->>Gateway: POST /withdraw/create
-        activate Gateway
+        S->>PG: POST /withdraw/create
+        activate PG
 
-        Gateway-->>Merchant: payoutId
+        PG-->>S: payoutId
 
-        deactivate Gateway
+        deactivate PG
     end
 
     loop Until final status received
 
         alt Search by payoutId
 
-            Merchant->>Gateway: GET /withdraw/status
-            Gateway-->>Merchant: status
+            S->>PG: GET /withdraw/status
+            PG-->>S: payout status
 
-        else Search by merchant payment number
+        else Search by shop payment number
 
-            Merchant->>Gateway: GET /withdraw/shop_payment_status
-            Gateway-->>Merchant: status
+            S->>PG: GET /withdraw/shop_payment_status
+            PG-->>S: payout status
 
         end
 
     end
 
-    Note over Merchant,Gateway: Final status = SUCCESS / FAILED
+    Note over S,PG: Final status = SUCCESS or FAILED
 ```
 
 1. Shop executes a request for a preliminary calculation and receiving additional parameters for further creation of the payout using the method [withdraw/try](/api-reference/withdraw-create/payout-preliminary-calculation);
