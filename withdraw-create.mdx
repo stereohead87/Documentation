@@ -36,16 +36,20 @@ sequenceDiagram
         deactivate PG
     end
 
+		rect rgb(245,245,245)
+        Note over S,PG: Getting payout status
+    end
+        
     loop Until final status received
 
         alt Search by payoutId
 
-            S->>PG: GET /withdraw/status
+            S->>PG: POST /withdraw/status
             PG-->>S: payout status
 
         else Search by shop payment number
 
-            S->>PG: GET /withdraw/shop_payment_status
+            S->>PG: POST /withdraw/shop_payment_status
             PG-->>S: payout status
 
         end

@@ -48,7 +48,7 @@ sequenceDiagram
 
     critical Payment completed
 
-        PG-)S: Callback: InvoicePaid
+        PG-)S: POST, Callback: InvoicePaid
         activate S
 
         S-->>PG: HTTP 200 OK
@@ -104,7 +104,7 @@ sequenceDiagram
 
     critical Funds successfully blocked
 
-        PG-)S: Callback: FundsHeld
+        PG-)S: POST, Callback: FundsHeld
         activate S
 
         S-->>PG: HTTP 200 OK
@@ -128,7 +128,7 @@ sequenceDiagram
 
     critical Capture completed
 
-        PG-)S: Callback: FundsCaptured
+        PG-)S: POST, Callback: FundsCaptured
         activate S
 
         S-->>PG: HTTP 200 OK
