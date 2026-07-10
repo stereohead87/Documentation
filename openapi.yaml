@@ -2034,12 +2034,6 @@ components:
         - $ref: '#/components/schemas/ShopID.v1'
         - $ref: '#/components/schemas/Now.v1'
         - type: object
-          properties:
-            payway:
-              type: string
-              maxLength: 150
-              pattern: ^[A-Za-z_,\[\]]+$
-              description: Payment direction for payout. Currency of receipt depends on the specified payment way. Execute the API request for get list of additional data.
     PayMethod.v1:
       title: Payment method
       type: object
