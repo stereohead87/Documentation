@@ -1288,6 +1288,23 @@ components:
     InvoiceCreatePayload.v1:
       oneOf:
         - $ref: '#/components/schemas/InvoiceCreateCard.v1'
+        - $ref: '#/components/schemas/InvoiceCreateIndonesia.v1'
+    InvoiceCreateIndonesia.v1:
+      title: Indonesia
+      allOf:
+        - $ref: '#/components/schemas/InvoicePayload.v1'
+        - $ref: '#/components/schemas/InvoiceCreateExpiresAt.v1'
+        - type: object
+          properties:
+            phone_number:
+              type: string
+              example: 812-0049-18540
+              description: Phone number of the payer for a transaction.
+            email:
+              type: string
+              example: example@email.com
+              pattern: ' ^(?=^.{5,100}$)[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+              description: Email address of the payer
     InvoiceCallBack:
       oneOf:
         - $ref: '#/components/schemas/InvoiceCallBack.v1'
