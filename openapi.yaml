@@ -1287,8 +1287,10 @@ components:
   schemas:
     InvoiceCreatePayload.v1:
       oneOf:
-        - $ref: '#/components/schemas/InvoiceCreateCard.v1'
-        - $ref: '#/components/schemas/InvoiceCreateIndonesia.v1'
+        - title: Bank card payment
+          $ref: '#/components/schemas/InvoiceCreateCard.v1'
+        - title: Indonesia payment 
+          $ref: '#/components/schemas/InvoiceCreateIndonesia.v1'
     InvoiceCreateIndonesia.v1:
       title: Indonesia
       allOf:
