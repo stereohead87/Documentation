@@ -532,16 +532,6 @@ paths:
             type: string
             example: sign-your-request
           description: Request signature
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              oneOf:
-                - title: Bank card payment
-                  $ref: '#/components/schemas/InvoiceCreateCard.v1'
-                - title: Indonesia payment
-                  $ref: '#/components/schemas/InvoiceCreateIndonesia.v1'
       responses:
         '200':
           description: ''
@@ -560,11 +550,13 @@ paths:
       security:
         - Request signature: []
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InvoiceCreatePayload.v1'
-        description: ''
+              oneOf:
+                - $ref: '#/components/schemas/InvoiceCreateCard.v1'
+                - $ref: '#/components/schemas/InvoiceCreateIndonesia.v1'
       tags:
         - invoice-create
       description: |
