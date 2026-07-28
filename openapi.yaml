@@ -532,6 +532,16 @@ paths:
             type: string
             example: sign-your-request
           description: Request signature
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - title: Bank card payment
+                  $ref: '#/components/schemas/InvoiceCreateCard.v1'
+                - title: Indonesia payment
+                  $ref: '#/components/schemas/InvoiceCreateIndonesia.v1'
       responses:
         '200':
           description: ''
@@ -1341,7 +1351,6 @@ components:
       type: string
       description: |
         Amount received or withdrawn.
-        Example: `"227.34"`
       exclusiveMinimum: true
       minimum: 0
       example: '6320.91'
@@ -1349,7 +1358,6 @@ components:
       type: number
       description: |
         Numeric currency identifier in accordance with [ISO 4217](https://wikipedia.org/wiki/ISO_4217).
-        Example: `840`
       title: Currency identifier
       example: 840
     Payway.v1:
