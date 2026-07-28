@@ -12,7 +12,7 @@
       {
         "name": "Sandbox (Test Environment)",
         "url": "https://api.test.cplus-int.tech/gateway/v1/"
-      }
+      } 
     ]
   },
   "colors": {
@@ -38,7 +38,7 @@
             "group": "Invoice issue (payment creation)",
             "root": "invoice-create",
             "expanded": false,
-            "openapi": "openapi.yaml",
+            "openapi": "openapiv2.yaml",
             "pages": [
               "POST /invoice/try",
               "POST /invoice/create",
@@ -54,7 +54,7 @@
             "tab": "Refunds",
             "root": "invoice-refund",
             "expanded": false,
-            "openapi": "openapi.yaml",
+            "openapi": "openapiv2.yaml",
             "pages": [
               "POST /invoice/create-refund",
               "POST /invoice/get-refunds"
@@ -86,7 +86,7 @@
             "group": "Payout creation",
             "root": "withdraw-create",
             "expanded": false,
-            "openapi": "openapi.yaml",
+            "openapi": "openapiv2.yaml",
             "pages": [
               "POST /withdraw/try",
               "POST /check_account",
@@ -128,7 +128,7 @@
             "group": "Other shop methods",
             "root": "other-shop-methods",
             "expanded": false,
-            "openapi": "openapi.yaml",
+            "openapi": "openapiv2.yaml",
             "pages": [
               "POST /shop_balance"
             ]
