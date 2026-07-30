@@ -554,7 +554,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InvoiceCreatePayload.v1'
+              oneOf:
+                - $ref: '#/components/schemas/InvoiceCreateCard.v1'
+                - $ref: '#/components/schemas/InvoiceCreateIndonesia.v1'
             examples:
               Bank card payment:
                 summary: 'Scenario: Bank card payment'
@@ -574,12 +576,23 @@ paths:
                     expiry_month: '08'
                     expiry_year: '30'
                     cvv: '184'
+                  issue_payment_token: true,
+                  client_info: 
+                    browser_accept_header: text/html
+                    browser_java_enabled: false
+                    browser_javascript_enabled: true
+                    browser_language: en
+                    browser_color_depth: 24
+                    browser_screen_height: 800
+                    browser_screen_width: 1280
+                    browser_tz: -60
+                    browser_user_agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
               Indonesia payment:
                 summary: 'Scenario: Indonesia payment'
                 value:
                   shop_id: 1520
                   shop_order_id: 7c1f0b2e-9d3a-4f8b-a1c5-3e2d4f6a8b90
-                  amount: '150000.00'
+                  amount: '15000'
                   currency: 360
                   payway: indonesia_payway_idr
                   description: 'Payment for shop_id=1520'
@@ -1316,11 +1329,6 @@ components:
         </div>
 
   schemas:
-    InvoiceCreatePayload.v1:
-      title: Invoice issue parameters
-      allOf:
-        - $ref: '#/components/schemas/InvoiceCreateCard.v1'
-        - $ref: '#/components/schemas/InvoiceCreateIndonesia.v1'
     InvoiceCreateIndonesia.v1:
       title: Indonesia
       allOf:
@@ -1660,7 +1668,6 @@ components:
                   type: string
                   description: |
                     Exact HTTP Accept header content as sent by the Payer's browser to Merchant's site.\
-                    Example: `"text/html"`
                   example: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8
                 browser_java_enabled:
                   type: boolean
@@ -1686,35 +1693,30 @@ components:
                   description: |
                     The value of the device color depth.\
                     It is recommended to obtain browser values from the global object `screen`: `screen.colorDepth`.\
-                    Example: `"24"`
                   example: '24'
                 browser_screen_height:
                   type: string
                   description: |
                     Screen height in pixels.\
                     It is recommended to obtain browser values from the global object `screen`: `screen.height`.\
-                    Example: `"800"`
                   example: '800'
                 browser_screen_width:
                   type: string
                   description: |
                     Screen width in pixels.\
                     It is recommended to obtain browser values from the global object `screen`: `screen.width`.\
-                    Example: `"480"`
                   example: '480'
                 browser_tz:
                   type: string
                   description: |
                     Browser time zone in minutes from UTC.\
-                    Recommendation to obtain browser TZ values: call the `getTimezoneOffset()` method.\
-                    Example: `"-120"` for UTC+2, `"240"` for UTC-4
+                    Recommendation to obtain browser TZ values: call the `getTimezoneOffset()` method. For UTC+2 use -120, for UTC-4 use 240.\
                   example: '-120'
                 browser_user_agent:
                   type: string
                   description: |
                     Browser User Agent.\
                     It is recommended to obtain browser values from the global object `navigator`: `navigator.userAgent`.\
-                    Example: `"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15"`
                   example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15
                 challenge_window_size:
                   type: string
