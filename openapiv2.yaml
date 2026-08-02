@@ -1118,7 +1118,37 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreatePayload.v1'
+              oneOf:
+                - $ref: '#/components/schemas/CreatePayload.v1'
+                - $ref: '#/components/schemas/IndonesiaPayouts'
+            examples:
+              Payout to Steam/cards:
+                summary: 'Scenario: payout to Steam or cards'
+                value:
+                  shop_id: 1520
+                  shop_currency: 840
+                  payway: card_payway_usd
+                  amount: '6320.91'
+                  account: '150010000097'
+                  amount_type: ps_amount
+                  shop_payment_id: 4440D705-947A-4C6E-9A2E-4A383B2CD574
+                  account_details:
+                    name: Adam
+                  description: Payout to my worker
+              Indonesia payouts:
+                summary: 'Scenario: Indonesia payout'
+                value:
+                  shop_id: 20514
+                  shop_currency: 360
+                  payway: idr_payway
+                  amount: '15000'
+                  account_details:
+                    bank_id: '008'
+                    email: example@email.com
+                  account: '123123123123411'
+                  amount_type: ps_amount
+                  shop_payment_id: 1b05b528-be98-4268-a85f-d3b5aaf76bc5
+                  description: Payout for my friend
       tags:
         - withdraw-create
       security:
@@ -2587,6 +2617,49 @@ components:
             - shop_payment_id
     CreatePayload.v1:
       $ref: '#/components/schemas/CommonCreatePayload.v1'
+    IndonesiaPayouts:
+      title: Indonesia payouts
+      allOf:
+        - $ref: '#/components/schemas/ShopID.v1'
+        - type: object
+          properties:
+            shop_currency:
+              $ref: '#/components/schemas/ShopCurrency.v1'
+            payway:
+              $ref: '#/components/schemas/PaywayWithdraw.v1'
+            amount:
+              $ref: '#/components/schemas/Amount.v1'
+            account_details:
+              title: Detailed account information
+              type: object
+              additionalProperties: true
+              description: Detailed account information. If additional parameters were transferred in the [shop_output_config/shop](/api-reference/withdraw-create/getting-possible-payout-methods) response in the `account_info_config` field, they must be transferred in the `account_details` field.
+              example:
+                bank_id: '008'
+                email: example@email.com
+            account:
+              $ref: '#/components/schemas/Account.v1'
+            amount_type:
+              $ref: '#/components/schemas/AmountType.v1'
+            shop_payment_id:
+              type: string
+              description: |-
+                Order ID in your system.
+                *Must be unique for each new payment.*
+              example: 1b05b528-be98-4268-a85f-d3b5aaf76bc5
+            description:
+              type: string
+              description: Description of the payout. Transferred in the payway provided that the payment system has this function.
+              maxLength: 255
+              example: Payout for my friend
+          required:
+            - shop_currency
+            - payway
+            - amount
+            - account_details
+            - account
+            - amount_type
+            - shop_payment_id
     Status.v1:
       title: Payment status
       type: integer

@@ -102,6 +102,13 @@
             "pages": [
               "withdraw-statuses"
             ]
+          },
+          {
+            "group": "Disbursement bank codes",
+            "expanded": false,
+            "pages": [
+              "disbursement-bank-codes"
+            ]
           }
         ]
       },
