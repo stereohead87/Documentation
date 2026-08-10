@@ -570,6 +570,8 @@ paths:
                   client_ip: 192.168.1.1
                   success_url: https://your-domain.com/status/success/
                   failed_url: https://your-domain.com/status/failed/
+                  callback_url: https://your-domain.com/callback/
+                  callback_rejected_url: https://your-domain.com/callback_rejected/
                   card:
                     number: '5395455214142417'
                     cardholder: ADAM SMITH
@@ -578,15 +580,16 @@ paths:
                     cvv: '184'
                   issue_payment_token: true,
                   client_info: 
-                    browser_accept_header: text/html
+                    browser_accept_header: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"
                     browser_java_enabled: false
                     browser_javascript_enabled: true
                     browser_language: en
-                    browser_color_depth: 24
-                    browser_screen_height: 800
-                    browser_screen_width: 1280
-                    browser_tz: -60
+                    browser_color_depth: "24"
+                    browser_screen_height: "800"
+                    browser_screen_width: "1280"
+                    browser_tz: "-60"
                     browser_user_agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+                    challenge_window_size: "05"
               Indonesia payment:
                 summary: 'Scenario: Indonesia payment'
                 value:
@@ -1143,7 +1146,7 @@ paths:
                   payway: idr_payway
                   amount: '15000'
                   account_details:
-                    bank_id: '008'
+                    recipient_bank: '008'
                     email: example@email.com
                   account: '123123123123411'
                   amount_type: ps_amount
@@ -2632,10 +2635,21 @@ components:
             account_details:
               title: Detailed account information
               type: object
+              properties:
+                recipient_bank:
+                  type: string
+                  description: Please refer to the [Disbursement Bank Codes](/disbursement-bank-codes) to find the bank code for the recipient's bank account.
+                  example: '008'
+                email:
+                  type: string
+                  description: Email address of the recipient.
+                  example: example@email.com
+              required:
+                - recipient_bank
               additionalProperties: true
               description: Detailed account information. If additional parameters were transferred in the [shop_output_config/shop](/api-reference/withdraw-create/getting-possible-payout-methods) response in the `account_info_config` field, they must be transferred in the `account_details` field.
               example:
-                bank_id: '008'
+                recipient_bank: '008'
                 email: example@email.com
             account:
               $ref: '#/components/schemas/Account.v1'
