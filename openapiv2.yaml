@@ -599,8 +599,8 @@ paths:
                   currency: 360
                   payway: indonesia_payway_idr
                   description: 'Payment for shop_id=1520'
-                  phone_number: 812-0049-18540
-                  email: example@email.com
+                  phone_number: 812-0177-20566
+                  email: user@gmail.com
                   expires_at: '2026-06-01T00:00:00Z'
       tags:
         - invoice-create
@@ -1147,7 +1147,7 @@ paths:
                   amount: '15000'
                   account_details:
                     recipient_bank: '008'
-                    email: example@email.com
+                    email: user@gmail.com
                   account: '123123123123411'
                   amount_type: ps_amount
                   shop_payment_id: 1b05b528-be98-4268-a85f-d3b5aaf76bc5
@@ -1371,11 +1371,11 @@ components:
           properties:
             phone_number:
               type: string
-              example: 812-0049-18540
+              example: 812-0177-20566
               description: Phone number of the payer for a transaction.
             email:
               type: string
-              example: example@email.com
+              example: user@gmail.com
               pattern: ' ^(?=^.{5,100}$)[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
               description: Email address of the payer
     InvoiceCallBack:
@@ -2643,14 +2643,14 @@ components:
                 email:
                   type: string
                   description: Email address of the recipient.
-                  example: example@email.com
+                  example: user@gmail.com
               required:
                 - recipient_bank
               additionalProperties: true
               description: Detailed account information. If additional parameters were transferred in the [shop_output_config/shop](/api-reference/withdraw-create/getting-possible-payout-methods) response in the `account_info_config` field, they must be transferred in the `account_details` field.
               example:
                 recipient_bank: '008'
-                email: example@email.com
+                email: user@gmail.com
             account:
               $ref: '#/components/schemas/Account.v1'
             amount_type:
