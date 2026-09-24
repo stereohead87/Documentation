@@ -1310,7 +1310,7 @@ components:
         {
             "shop_id": 1520,
             "shop_order_id" : "5b0efa8a-153b-4421-abac-2aba4d772a86",
-            "amout": "6320.91",
+            "amount": "6320.91",
             "currency": 840,
             "payway": "card_invoice_usd",
             "description": "Payment for shop_id=1520",
