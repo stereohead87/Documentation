@@ -1376,7 +1376,7 @@ components:
             email:
               type: string
               example: user@gmail.com
-              pattern: ' ^(?=^.{5,100}$)[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+              pattern: '^(?=^.{5,100}$)[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
               description: Email address of the payer
     InvoiceCallBack:
       oneOf:
@@ -1662,12 +1662,12 @@ components:
                   example: '5395455214142417'
                 cardholder:
                   type: string
-                  pattern: ' ^[0-9A-Z-/ _.'']{1,26}$'
+                  pattern: '^[0-9A-Z-/ _.'']{1,26}$'
                   description: Cardholder name. If name is not provided default value «Card Holder» will be used
                   example: ADAM SMITH
                 expiry_month:
                   type: string
-                  pattern: ' (^0?[1-9]{1}$)|(^1[012]{1}$)'
+                  pattern: '(^0?[1-9]{1}$)|(^1[012]{1}$)'
                   description: Bank card expiration month
                   example: '08'
                 expiry_year:
@@ -2140,7 +2140,7 @@ components:
       required:
         - id
         - name
-        - raiting
+        - rating
         - payways
     FeeConfig.v1:
       title: Settings for the distribution of commission between the shop and the payer.
@@ -2437,6 +2437,7 @@ components:
       enum:
         - 840
         - 978
+        - 360
       title: Currency identifier
       example: 840
     PaywayWithdraw.v1:
