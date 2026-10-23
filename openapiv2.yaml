@@ -578,7 +578,7 @@ paths:
                     expiry_month: '08'
                     expiry_year: '30'
                     cvv: '184'
-                  issue_payment_token: true,
+                  issue_payment_token: true
                   client_info: 
                     browser_accept_header: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"
                     browser_java_enabled: false
